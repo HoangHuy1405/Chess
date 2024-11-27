@@ -1,5 +1,8 @@
 package GUI;
 
+import Logic.Piece.PieceColor;
+import Logic.Piece.PieceType;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -57,7 +60,7 @@ public class GUI {
         return new ImageIcon(scaledImg); // Return scaled image as an icon
     }
     private JLabel initilizeBoard(int row, int col) throws Exception {
-        Piece piece = null;
+        PieceType pieceType = null;
         PieceColor pieceColor = null;
         if(row == 0 || row == 1) {
             pieceColor = PieceColor.black;
@@ -68,37 +71,37 @@ public class GUI {
         switch(col) {
             case 0:
             case 7:
-                piece = Piece.rook;
+                pieceType = PieceType.rook;
                 break;
             case 1:
             case 6:
-                piece = Piece.knight;
+                pieceType = PieceType.knight;
                 break;
             case 2:
             case 5:
-                piece = Piece.bishop;
+                pieceType = PieceType.bishop;
                 break;
             case 3:
-                piece = Piece.queen;
+                pieceType = PieceType.queen;
                 break;
             case 4:
-                piece = Piece.king;
+                pieceType = PieceType.king;
                 break;
             default:
                 throw new Exception("piece not found 404");
         }
         if(row == 1 || row == 6) {
-            piece = Piece.pawn;
+            pieceType = PieceType.pawn;
         }
-        return placePiece(row, col, pieceColor, piece);
+        return placePiece(row, col, pieceColor, pieceType);
     }
-    private JLabel placePiece(int row, int col,PieceColor pieceColor, Piece piece) {
-        if(pieceColor == null || piece == null) {
+    private JLabel placePiece(int row, int col,PieceColor pieceColor, PieceType pieceType) {
+        if(pieceColor == null || pieceType == null) {
             return null;
         }
-        String imageStr = "src/GUI/images/"+pieceColor+"-"+piece+".png";
+        String imageStr = "src/GUI/images/"+pieceColor+"-"+ pieceType +".png";
         JLabel pieceLabel = new JLabel(getScaledIcon(imageStr, TILE_SIZE, TILE_SIZE));
-        pieceLabel.setName(pieceColor+"-"+piece);
+        pieceLabel.setName(pieceColor+"-"+ pieceType);
         pieceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         pieceLabel.setVerticalAlignment(SwingConstants.CENTER);
 

@@ -1,4 +1,5 @@
 import GUI.*;
+import Logic.Piece.Piece;
 
 import javax.swing.*;
 import java.awt.*;

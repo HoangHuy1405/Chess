@@ -1,6 +1,6 @@
-package GUI;
+package Logic.Piece;
 
-public enum Piece {
+public enum PieceType {
     bishop,
     king,
     knight,
