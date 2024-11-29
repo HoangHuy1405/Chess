@@ -5,19 +5,24 @@ import Logic.Movement.Move;
 import Logic.Movement.Direction;
 import Logic.Movement.Position;
 
+import java.util.List;
 import java.util.Map;
 
-public class Rook extends Piece {
+public class Queen extends Piece{
     private static final Direction[] directions = {
-        new Direction(0, 1), //go right
-        new Direction(1, 0), //go forward
-        new Direction(0, -1), // go left
-        new Direction(-1, 0), // go backward
+        new Direction(0,1),
+        new Direction(0,-1),
+        new Direction(1,0),
+        new Direction(-1,0),
+        new Direction(1,1),
+        new Direction(1,-1),
+        new Direction(-1,1),
+        new Direction(-1,-1)
     };
 
-    public Rook(PieceColor color){
-        super(PieceType.rook, color);
 
+    public Queen(PieceColor color) {
+        super(PieceType.queen, color);
     }
 
     @Override
@@ -26,7 +31,4 @@ public class Rook extends Piece {
     }
 
 
-    private boolean isSamePieceColor(Piece piece){
-        return this.color == piece.color;
-    }
 }

@@ -21,4 +21,8 @@ public class Board {
     public void removePiece(Position pos) {
         board[pos.getX()][pos.getY()] = null;
     }
+
+    public boolean isOutOfBoard(Position pos) {
+        return pos.getX() > 7 || pos.getY() > 7 || pos.getX() < 0 || pos.getY() < 0;
+    }
 }

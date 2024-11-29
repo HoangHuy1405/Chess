@@ -5,7 +5,4 @@ public class PositionCalculation {
         return new Position(p.getX() + d.getDeltaX(), p.getY() + d.getDeltaY());
     }
 
-
-
-
 }
