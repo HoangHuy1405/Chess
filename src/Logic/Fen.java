@@ -5,6 +5,7 @@ import Logic.Piece.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Fen {
     private static final Map<Character, PieceType> pieces = new HashMap<>(){
@@ -19,6 +20,7 @@ public class Fen {
     };
     public static boolean loadFen(String fenString, Board board){
         int index = 0, row = 0, col = 0;
+        board.clearBoard();
 
         while (index < fenString.length()){
             if(Character.isDigit(fenString.charAt(index))){
@@ -41,7 +43,48 @@ public class Fen {
 
         return true;
     }
+    public static String extractFen(Board board) {
+        StringBuilder fen = new StringBuilder();
 
+        for (int i = 0; i < 8; i++) {
+            int count = 0;
+
+            for (int j = 0; j < 8; j++) {
+                Piece piece = board.getPiece(new Position(i, j));
+                if (piece == null) {
+                    count++;
+                } else {
+                    if (count > 0) {
+                        fen.append(count);
+                        count = 0;
+                    }
+                    fen.append(getFenCharacter(piece));
+                }
+            }
+            if (count > 0) {
+                fen.append(count);
+            }
+            if (i < 7) {
+                fen.append("/");
+            }
+        }
+
+        return fen.toString();
+    }
+
+    private static char getFenCharacter(Piece piece) {
+        Player color = piece.getColor();
+        char c = ' ';
+
+        for(Map.Entry<Character, PieceType> entry : pieces.entrySet()){
+            if(entry.getValue().equals(piece.getType())){
+                c = entry.getKey();
+                break;
+            }
+        }
+
+        return color == Player.white ? Character.toUpperCase(c) : c;
+    }
     private static Piece generatePiece(Character c){
         if(!pieces.containsKey(Character.toLowerCase(c))){
             return null;
@@ -63,4 +106,5 @@ public class Fen {
             case rook -> new Rook(player);
         };
     }
+
 }

@@ -53,30 +53,11 @@ public class BoardPanel extends JPanel implements Runnable {
         thread = new Thread(this);
         thread.start();
     }
-    private boolean Initialize(){
+    private void Initialize(){
         cacheMove = new HashMap<>();
-//        isDragging = false;
         state = new NoPieceHoldingState(this);
         manager = new GameManager(Player.white);
-//        manager.getBoard().setPiece(new Rook(Player.white), new Position(0,0));
-//        manager.getBoard().setPiece(new Rook(Player.white), new Position(7,0));
-//        manager.getBoard().setPiece(new Rook(Player.white), new Position(7,7));
-//        manager.getBoard().setPiece(new Queen(Player.white), new Position(4,4));
-//        manager.getBoard().setPiece(new Knight(Player.white), new Position(4,5));
-//        manager.getBoard().setPiece(new Knight(Player.black), new Position(7,5));
-//        manager.getBoard().setPiece(new Pawn(Player.white), new Position(6, 0));
-//        manager.getBoard().setPiece(new Pawn(Player.black), new Position(5,1));
-//        manager.getBoard().setPiece(new Knight(Player.white), new Position(7,1));
-        String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-        if(Fen.loadFen(fen, manager.getBoard())){
-            System.out.println("FEN load");
-        }else {
-            System.out.println("Fail to load fen");
-        }
-
-//        System.out.println(Fen.extractFen(manager.getBoard()));
-
-        return true;
+        manager.InitializeBoard();
     }
 
     @Override

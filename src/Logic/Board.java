@@ -15,26 +15,39 @@ public class Board {
         board = new Piece[8][8];
     }
 
+    public void InitializeBoard(){
+        Fen.loadFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", this);
+    }
+
     public Piece getPiece(Position pos) {
         return board[pos.getRow()][pos.getCol()];
     }
-
     public void setPiece(Piece piece, Position pos) {
         board[pos.getRow()][pos.getCol()] = piece;
     }
-
     public void removePiece(Position pos) {
         board[pos.getRow()][pos.getCol()] = null;
+    }
+    public void clearBoard() {
+        board = new Piece[8][8];
+    }
+    public Board copy() {
+        Board newBoard = new Board();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Position pos = new Position(i, j);
+                Piece piece = this.getPiece(pos);
+                if (piece != null) {
+                    newBoard.setPiece(piece.copy(), pos);
+                }
+            }
+        }
+        return newBoard;
     }
 
     public boolean isOutOfBoard(Position pos) {
         return pos.getRow() > 7 || pos.getCol() > 7 || pos.getRow() < 0 || pos.getCol() < 0;
     }
-
-    public void clearBoard() {
-        board = new Piece[8][8];
-    }
-
     public boolean isInCheck(Player color) {
         Position kingPos = findKing(color);
         if(kingPos == null) return false;
@@ -70,17 +83,4 @@ public class Board {
         return null;
     }
 
-    public Board copy() {
-        Board newBoard = new Board();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Position pos = new Position(i, j);
-                Piece piece = this.getPiece(pos);
-                if (piece != null) {
-                    newBoard.setPiece(piece.copy(), pos);
-                }
-            }
-        }
-        return newBoard;
-    }
 }
