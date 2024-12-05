@@ -5,7 +5,6 @@ import Logic.Movement.Move;
 import Logic.Movement.Direction;
 import Logic.Movement.Position;
 
-import java.util.List;
 import java.util.Map;
 
 public class Queen extends Piece{
@@ -21,12 +20,12 @@ public class Queen extends Piece{
     };
 
 
-    public Queen(PieceColor color) {
+    public Queen(Player color) {
         super(PieceType.queen, color);
     }
 
     @Override
-    public Map<Position, Move> getLegalMoves(Board board, Position curPos){
+    public Map<Position, Move> getMoves(Board board, Position curPos){
         return generateMovesFromDirs(board, curPos, directions);
     }
 

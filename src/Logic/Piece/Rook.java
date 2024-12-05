@@ -15,16 +15,15 @@ public class Rook extends Piece {
         new Direction(-1, 0), // go backward
     };
 
-    public Rook(PieceColor color){
+    public Rook(Player color){
         super(PieceType.rook, color);
 
     }
 
     @Override
-    public Map<Position, Move> getLegalMoves(Board board, Position curPos){
+    public Map<Position, Move> getMoves(Board board, Position curPos){
         return generateMovesFromDirs(board, curPos, directions);
     }
-
 
     private boolean isSamePieceColor(Piece piece){
         return this.color == piece.color;

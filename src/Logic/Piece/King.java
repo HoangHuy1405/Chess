@@ -22,12 +22,12 @@ public class King extends Piece {
         new Direction(-1, -1),
     };
 
-    public King(PieceColor color) {
+    public King(Player color) {
         super(PieceType.king, color);
     }
 
     @Override
-    public Map<Position, Move> getLegalMoves(Board board, Position curPos) {
+    public Map<Position, Move> getMoves(Board board, Position curPos) {
         return generateMoveFromDirs(board, curPos, directions);
     }
 }

@@ -3,7 +3,6 @@ package Logic.Piece;
 import Logic.Board;
 import Logic.Movement.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Knight extends Piece {
@@ -21,12 +20,12 @@ public class Knight extends Piece {
         new Direction(-1, -2),
     };
 
-    public Knight(PieceColor color) {
+    public Knight(Player color) {
         super(PieceType.knight, color);
     }
 
     @Override
-    public Map<Position, Move> getLegalMoves(Board board, Position curPos) {
+    public Map<Position, Move> getMoves(Board board, Position curPos) {
         return generateMoveFromDirs(board, curPos, directions);
     }
 

@@ -9,18 +9,18 @@ import java.util.Map;
 public class Pawn extends Piece {
     private final Direction direction;
 
-    protected Pawn(PieceColor color) {
+    public Pawn(Player color) {
         super(PieceType.pawn, color);
 
-        if(color == PieceColor.white){
-            direction = new Direction(1, 0);
-        }else{
+        if(color == Player.white){
             direction = new Direction(-1, 0);
+        }else{
+            direction = new Direction(1, 0);
         }
     }
 
     @Override
-    public Map<Position, Move> getLegalMoves(Board board, Position curPos) {
+    public Map<Position, Move> getMoves(Board board, Position curPos) {
         Map<Position, Move> pawnMoves = generatePawnMoves(board, curPos);
         Map<Position, Move> pawnCapture = generatePawnCapture(board, curPos);
 
@@ -35,10 +35,20 @@ public class Pawn extends Piece {
         Map<Position, Move> moves = new HashMap<>();
 
         Position finalPos = PositionCalculation.CalculateDestination(curPos, direction);
+        if(board.isOutOfBoard(finalPos)) return moves;
+
+        Piece piece = board.getPiece(finalPos);
+        if(piece != null) return moves;
+
         moves.put(finalPos, new NormalMove(curPos, finalPos));
 
         if(!hasMoved){
             finalPos = PositionCalculation.CalculateDestination(curPos, Direction.CalculateScalarDirection(direction, 2));
+            if(board.isOutOfBoard(finalPos)) return moves;
+
+            piece = board.getPiece(finalPos);
+            if(piece != null) return moves;
+
             moves.put(finalPos, new NormalMove(curPos, finalPos));
         }
 

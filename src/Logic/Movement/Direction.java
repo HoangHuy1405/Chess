@@ -1,27 +1,27 @@
 package Logic.Movement;
 
 public class Direction {
-    private int deltaX;
-    private int deltaY;
+    private int deltaRow;
+    private int deltaCol;
 
-    public Direction(int deltaX, int deltaY) {
-        this.deltaX = deltaX;
-        this.deltaY = deltaY;
+    public Direction(int deltaRow, int deltaCol) {
+        this.deltaRow = deltaRow;
+        this.deltaCol = deltaCol;
     }
 
-    public int getDeltaX() {
-        return deltaX;
+    public int getDeltaRow() {
+        return deltaRow;
     }
-    public int getDeltaY() {
-        return deltaY;
+    public int getDeltaCol() {
+        return deltaCol;
     }
 
     public static Direction CalculateScalarDirection(Direction d, int scalar){
-        return new Direction(d.getDeltaX() * scalar, d. getDeltaY() * scalar);
+        return new Direction(d.getDeltaRow() * scalar, d.getDeltaCol() * scalar);
     }
 
     public static Direction CalculatePlusDirection(Direction d1, Direction d2){
-        return new Direction(d1.getDeltaX() + d2.getDeltaX(), d1.getDeltaY() + d2.getDeltaY());
+        return new Direction(d1.getDeltaRow() + d2.getDeltaRow(), d1.getDeltaCol() + d2.getDeltaCol());
     }
 }
 

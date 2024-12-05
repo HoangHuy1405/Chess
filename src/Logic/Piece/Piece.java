@@ -4,21 +4,20 @@ import Logic.Board;
 import Logic.Movement.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class Piece {
     public boolean hasMoved;
     protected PieceType type;
-    protected PieceColor color;
+    protected Player color;
 
-    protected Piece(PieceType type, PieceColor color) {
+    protected Piece(PieceType type, Player color) {
         this.type = type;
         this.color = color;
         hasMoved = false;
     }
 
-    public PieceColor getColor() {
+    public Player getColor() {
         return color;
     }
     public PieceType getType() {
@@ -52,7 +51,7 @@ public abstract class Piece {
         Map<Position, Move> moves = new HashMap<>();
         for(Direction direction : directions) {
             Position finalPos = PositionCalculation.CalculateDestination(curPos, direction);
-
+            if(board.isOutOfBoard(finalPos)) continue;
             Piece piece = board.getPiece(finalPos);
 
             if (piece != null) {
@@ -64,9 +63,48 @@ public abstract class Piece {
 
         return moves;
     }
+
     protected boolean isSameColor(Piece piece) {
         return this.color == piece.getColor();
     }
 
-    abstract public Map<Position, Move> getLegalMoves(Board board, Position curPos);
+    abstract public Map<Position, Move> getMoves(Board board, Position curPos);
+
+    public Piece copy(){
+        switch(this.type){
+            case king -> {
+                Piece king = new King(this.color);
+                king.hasMoved = this.hasMoved;
+                return king;
+            }
+            case queen -> {
+                Piece queen = new Queen(this.color);
+                queen.hasMoved = this.hasMoved;
+                return queen;
+            }
+            case bishop -> {
+                Piece bishop = new Bishop(this.color);
+                bishop.hasMoved = this.hasMoved;
+                return bishop;
+            }
+            case knight -> {
+                Piece knight = new Knight(this.color);
+                knight.hasMoved = this.hasMoved;
+                return knight;
+            }
+            case rook -> {
+                Piece rook = new Rook(this.color);
+                rook.hasMoved = this.hasMoved;
+                return rook;
+            }
+            case pawn -> {
+                Piece pawn = new Pawn(this.color);
+                pawn.hasMoved = this.hasMoved;
+                return pawn;
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
 }

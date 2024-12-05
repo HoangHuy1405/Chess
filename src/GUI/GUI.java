@@ -1,6 +1,6 @@
 package GUI;
 
-import Logic.Piece.PieceColor;
+import Logic.Piece.Player;
 import Logic.Piece.PieceType;
 
 import javax.swing.*;
@@ -61,12 +61,12 @@ public class GUI {
     }
     private JLabel initilizeBoard(int row, int col) throws Exception {
         PieceType pieceType = null;
-        PieceColor pieceColor = null;
+        Player player = null;
         if(row == 0 || row == 1) {
-            pieceColor = PieceColor.black;
+            player = Player.black;
         }
         if(row == 7 || row == 6) {
-            pieceColor = PieceColor.white;
+            player = Player.white;
         }
         switch(col) {
             case 0:
@@ -93,15 +93,15 @@ public class GUI {
         if(row == 1 || row == 6) {
             pieceType = PieceType.pawn;
         }
-        return placePiece(row, col, pieceColor, pieceType);
+        return placePiece(row, col, player, pieceType);
     }
-    private JLabel placePiece(int row, int col,PieceColor pieceColor, PieceType pieceType) {
-        if(pieceColor == null || pieceType == null) {
+    private JLabel placePiece(int row, int col, Player player, PieceType pieceType) {
+        if(player == null || pieceType == null) {
             return null;
         }
-        String imageStr = "src/GUI/images/"+pieceColor+"-"+ pieceType +".png";
+        String imageStr = "src/GUI/images/"+ player +"-"+ pieceType +".png";
         JLabel pieceLabel = new JLabel(getScaledIcon(imageStr, TILE_SIZE, TILE_SIZE));
-        pieceLabel.setName(pieceColor+"-"+ pieceType);
+        pieceLabel.setName(player +"-"+ pieceType);
         pieceLabel.setHorizontalAlignment(SwingConstants.CENTER);
         pieceLabel.setVerticalAlignment(SwingConstants.CENTER);
 
