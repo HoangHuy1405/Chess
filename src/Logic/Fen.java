@@ -5,7 +5,6 @@ import Logic.Piece.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Fen {
     private static final Map<Character, PieceType> pieces = new HashMap<>(){

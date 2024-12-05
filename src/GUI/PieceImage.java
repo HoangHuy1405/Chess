@@ -12,10 +12,9 @@ import java.util.Objects;
 public class PieceImage {
     private static final String url = "/GUI/images/";
 
-    public static String getStringImage(Piece piece){
+    private static String getStringImage(Piece piece){
         return url + piece.getColor() + "-" + piece.getType() + ".png";
     }
-
     public static BufferedImage getImage(Piece piece) {
         BufferedImage image = null;
         try {

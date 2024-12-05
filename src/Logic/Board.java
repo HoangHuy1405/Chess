@@ -11,6 +11,8 @@ import java.util.Map;
 public class Board {
     private Piece[][] board;
 
+    public Position lastDoublePawnMove;
+
     public Board() {
         board = new Piece[8][8];
     }

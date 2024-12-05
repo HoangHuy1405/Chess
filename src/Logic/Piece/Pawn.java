@@ -49,7 +49,7 @@ public class Pawn extends Piece {
             piece = board.getPiece(finalPos);
             if(piece != null) return moves;
 
-            moves.put(finalPos, new NormalMove(curPos, finalPos));
+            moves.put(finalPos, new DoublePawnMove(curPos, finalPos));
         }
 
         return moves;
@@ -72,6 +72,13 @@ public class Pawn extends Piece {
             if(piece != null){
                 if(!isSameColor(piece)) moves.put(diagonal2, new NormalMove(curPos, diagonal2));
             }
+        }
+
+        Position lastDoublePawnMove = board.lastDoublePawnMove;
+
+        if(lastDoublePawnMove != null){
+            Position positionEnPassant = new Position(curPos.getRow() + direction.getDeltaRow(), lastDoublePawnMove.getCol());
+            moves.put(positionEnPassant, new EnPassantMove(curPos, positionEnPassant, lastDoublePawnMove));
         }
 
         return moves;
