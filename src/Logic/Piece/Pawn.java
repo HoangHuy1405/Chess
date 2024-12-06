@@ -77,11 +77,23 @@ public class Pawn extends Piece {
             }
         }
 
+        //En Passant Logic
         Position lastDoublePawnMove = board.lastDoublePawnMove;
 
         if(lastDoublePawnMove != null){
-            Position positionEnPassant = new Position(curPos.getRow() + direction.getDeltaRow(), lastDoublePawnMove.getCol());
-            moves.put(positionEnPassant, new EnPassantMove(curPos, positionEnPassant, lastDoublePawnMove));
+            Position positionEnPassant;
+
+            if(color.equals(Player.white))
+                positionEnPassant = new Position(lastDoublePawnMove.getRow() - 1, lastDoublePawnMove.getCol());
+            else
+                positionEnPassant = new Position(lastDoublePawnMove.getRow() + 1, lastDoublePawnMove.getCol());
+
+
+            if(diagonal1.equals(positionEnPassant))
+                moves.put(positionEnPassant, new EnPassantMove(curPos, diagonal1, lastDoublePawnMove));
+
+            if(diagonal2.equals(positionEnPassant))
+                moves.put(positionEnPassant, new EnPassantMove(curPos, diagonal2, lastDoublePawnMove));
         }
 
         return moves;
