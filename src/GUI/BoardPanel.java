@@ -3,10 +3,9 @@ package GUI;
 import GUI.State.BoardState;
 import GUI.State.NoPieceHoldingState;
 import Logic.Board;
-import Logic.Fen;
 import Logic.GameManager;
-import Logic.Movement.Move;
-import Logic.Movement.Position;
+import Logic.Move.Move;
+import Logic.Position.Position;
 import Logic.Piece.*;
 
 import javax.swing.*;
@@ -14,6 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class BoardPanel extends JPanel implements Runnable {
     private static final int HEIGHT = 800;
@@ -72,10 +72,12 @@ public class BoardPanel extends JPanel implements Runnable {
             now = System.nanoTime();
             update();
             if(now - lastFrame >= timePerFrame){
+
                 repaint();
                 lastFrame = now;
                 frames++;
             }
+
 
             if(System.currentTimeMillis() - lastCheck > 1000){
                 lastCheck = System.currentTimeMillis();
@@ -91,14 +93,14 @@ public class BoardPanel extends JPanel implements Runnable {
 //            System.out.println("Press at " + pos.getRow() + " " + pos.getCol());
             state.pressEvent(pos);
             mouse.isPressed = false;
-//            return;
+            return;
         }
         if(mouse.isDragging){
 //            System.out.println("isDragging");
             Position pos = new Position(mouse.getRow(), mouse.getCol());
 //            System.out.println("Dragging at " + pos.getRow() + " " + pos.getCol());
             state.dragEvent(pos);
-            mouse.isDragging = false;
+//            mouse.isDragging = false;
 //            return;
         }
         if(mouse.isReleased){
@@ -109,23 +111,22 @@ public class BoardPanel extends JPanel implements Runnable {
             mouse.isReleased = false;
 
         }
-
-
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
         DrawBoard(g2d);
         DrawPiece(g2d);
+
+        if(pickedPiece != null && draggingPosition != null){
+            DraggingPiece(g2d);
+        }
 
         if(cacheMove != null) {
             if (!cacheMove.isEmpty()) {
                 HighlightMoves(g2d);
             }
-        }
-
-        if(pickedPiece != null && draggingPosition != null){
-            DraggingPiece(g2d);
         }
     }
 

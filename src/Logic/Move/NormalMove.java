@@ -1,11 +1,12 @@
-package Logic.Movement;
+package Logic.Move;
 
 import Logic.Board;
 import Logic.Piece.Piece;
+import Logic.Position.Position;
 
 public class NormalMove extends Move{
     public NormalMove(Position fromPos, Position toPos) {
-        super(fromPos, toPos);
+        super(fromPos, toPos, MoveType.NormalMove);
     }
 
     @Override

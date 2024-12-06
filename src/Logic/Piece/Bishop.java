@@ -1,9 +1,10 @@
 package Logic.Piece;
 
 import Logic.Board;
-import Logic.Movement.Move;
-import Logic.Movement.Direction;
-import Logic.Movement.Position;
+import Logic.Move.Move;
+
+import Logic.Position.Direction;
+import Logic.Position.Position;
 
 import java.util.Map;
 

@@ -1,10 +1,10 @@
 package Logic;
 
-import Logic.Movement.Move;
-import Logic.Movement.Position;
-import Logic.Piece.King;
-import Logic.Piece.Piece;
-import Logic.Piece.Player;
+import Logic.Move.Move;
+import Logic.Piece.*;
+import Logic.Position.Direction;
+import Logic.Position.Position;
+import Logic.Position.PositionCalculation;
 
 import java.util.Map;
 
@@ -66,6 +66,76 @@ public class Board {
                 if(moves.containsKey(kingPos)){
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isInCheckAt(Position pos, Player color) {
+        Direction[] dirs = {
+            new Direction(0,1),
+            new Direction(0,-1),
+            new Direction(1,0),
+            new Direction(-1,0),
+
+            new Direction(1,1),
+            new Direction(1,-1),
+            new Direction(-1,1),
+            new Direction(-1,-1),
+
+            new Direction(2, 1),
+            new Direction(1, 2),
+            new Direction(-2, 1),
+            new Direction(-1, 2),
+            new Direction(2, -1),
+            new Direction(1, -2),
+            new Direction(-2, -1),
+            new Direction(-1, -2),
+        };
+
+        for (Direction dir : dirs) {
+            Position checkingPos;
+            if(dir.getDeltaRow() == 2 || dir.getDeltaCol() == 2 || dir.getDeltaRow() == -2 || dir.getDeltaCol() == -2){
+                checkingPos = PositionCalculation.CalculateDestination(pos, dir);
+
+                if(isOutOfBoard(checkingPos)) continue;
+                Piece piece = getPiece(checkingPos);
+
+                if(piece == null) continue;
+                if(piece.getColor() == color) continue;
+
+                if(piece.getType() == PieceType.knight) return true;
+                continue;
+            }
+
+            if(dir.getDeltaRow() == 0 || dir.getDeltaCol() == 0){
+                for(int i = 1; i < 8; i++){
+                    checkingPos = PositionCalculation.CalculateDestination(pos, Direction.CalculateScalarDirection(dir, i));
+
+                    if(isOutOfBoard(checkingPos)) break;
+                    Piece piece = getPiece(checkingPos);
+
+                    if(piece == null) continue;
+                    if(piece.getColor() == color) break;
+                    if(i == 1 && piece.getType() == PieceType.king) return true;
+
+                    if(piece.getType() == PieceType.queen || piece.getType() == PieceType.rook) return true;
+                }
+                continue;
+            }
+
+            for(int i = 1; i < 8; i++){
+                checkingPos = PositionCalculation.CalculateDestination(pos, Direction.CalculateScalarDirection(dir, i));
+
+                if(isOutOfBoard(checkingPos)) break;
+                Piece piece = getPiece(checkingPos);
+
+                if(piece == null) continue;
+                if(piece.getColor() == color) break;
+                if(i == 1 && (piece.getType() == PieceType.king || piece.getType() == PieceType.pawn)) return true;
+
+                if(piece.getType() == PieceType.queen || piece.getType() == PieceType.bishop) return true;
             }
         }
 

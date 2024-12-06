@@ -1,10 +1,7 @@
 package GUI.State;
 
 import GUI.BoardPanel;
-import Logic.Board;
-import Logic.Movement.Position;
-
-import java.awt.*;
+import Logic.Position.Position;
 
 public abstract class BoardState {
     protected BoardPanel bp;

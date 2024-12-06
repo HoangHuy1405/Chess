@@ -1,7 +1,10 @@
 package Logic.Piece;
 
 import Logic.Board;
-import Logic.Movement.*;
+import Logic.Position.Direction;
+import Logic.Move.*;
+import Logic.Position.Position;
+import Logic.Position.PositionCalculation;
 
 import java.util.HashMap;
 import java.util.Map;

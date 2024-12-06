@@ -1,10 +1,11 @@
-package Logic.Movement;
+package Logic.Move;
 
 import Logic.Board;
+import Logic.Position.Position;
 
 public class DoublePawnMove extends Move{
     public DoublePawnMove(Position fromPos, Position toPos) {
-        super(fromPos, toPos);
+        super(fromPos, toPos, MoveType.DoublePawn);
     }
 
     @Override

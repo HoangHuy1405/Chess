@@ -1,4 +1,4 @@
-package Logic.Movement;
+package Logic.Position;
 
 public class PositionCalculation {
     public static Position CalculateDestination(Position p, Direction d) {

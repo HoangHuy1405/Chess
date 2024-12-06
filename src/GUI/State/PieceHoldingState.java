@@ -1,8 +1,7 @@
 package GUI.State;
 
 import GUI.BoardPanel;
-import Logic.Movement.Position;
-import Logic.Piece.Piece;
+import Logic.Position.Position;
 
 public class PieceHoldingState extends BoardState {
     private boolean isPress, isDrag;
