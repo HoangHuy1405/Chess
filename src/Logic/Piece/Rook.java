@@ -15,8 +15,8 @@ public class Rook extends Piece {
         new Direction(-1, 0), // go backward
     };
 
-    public Rook(Player color){
-        super(PieceType.rook, color);
+    public Rook(Player color, Position position){
+        super(PieceType.rook, color, position);
 
     }
 

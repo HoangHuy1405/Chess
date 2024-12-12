@@ -12,8 +12,8 @@ import java.util.Map;
 public class Pawn extends Piece {
     private final Direction direction;
 
-    public Pawn(Player color) {
-        super(PieceType.pawn, color);
+    public Pawn(Player color, Position position) {
+        super(PieceType.pawn, color, position);
 
         if(color == Player.white){
             direction = new Direction(-1, 0);
@@ -43,7 +43,11 @@ public class Pawn extends Piece {
         Piece piece = board.getPiece(finalPos);
         if(piece != null) return moves;
 
-        moves.put(finalPos, new NormalMove(curPos, finalPos));
+        if(finalPos.getRow() == 7 || finalPos.getRow() == 0) {
+            moves.put(finalPos, new PromotePawnMove(curPos, finalPos));
+        }else{
+            moves.put(finalPos, new NormalMove(curPos, finalPos));
+        }
 
         if(!hasMoved){
             finalPos = PositionCalculation.CalculateDestination(curPos, Direction.CalculateScalarDirection(direction, 2));
@@ -66,14 +70,24 @@ public class Pawn extends Piece {
         if(!board.isOutOfBoard(diagonal1)){
             Piece piece = board.getPiece(diagonal1);
             if(piece != null){
-                if(!isSameColor(piece)) moves.put(diagonal1, new NormalMove(curPos, diagonal1));
+                if(!isSameColor(piece))
+                    if(diagonal1.getRow() == 7 || diagonal1.getRow() == 0) {
+                        moves.put(diagonal1, new PromotePawnMove(curPos, diagonal1));
+                    }else{
+                        moves.put(diagonal1, new NormalMove(curPos, diagonal1));
+                    }
             }
         }
 
         if(!board.isOutOfBoard(diagonal2)){
             Piece piece = board.getPiece(diagonal2);
             if(piece != null){
-                if(!isSameColor(piece)) moves.put(diagonal2, new NormalMove(curPos, diagonal2));
+                if(!isSameColor(piece))
+                    if(diagonal2.getRow() == 7 || diagonal2.getRow() == 0) {
+                        moves.put(diagonal2, new PromotePawnMove(curPos, diagonal2));
+                    }else{
+                        moves.put(diagonal2, new NormalMove(curPos, diagonal2));
+                    }
             }
         }
 

@@ -23,8 +23,8 @@ public class Knight extends Piece {
         new Direction(-1, -2),
     };
 
-    public Knight(Player color) {
-        super(PieceType.knight, color);
+    public Knight(Player color, Position position) {
+        super(PieceType.knight, color, position);
     }
 
     @Override

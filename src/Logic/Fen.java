@@ -29,12 +29,13 @@ public class Fen {
                     row ++;
                     col = 0;
                 }else{
-                    Piece piece = generatePiece(fenString.charAt(index));
+                    Position pos = new Position(row, col++);
+                    Piece piece = generatePiece(fenString.charAt(index), pos);
                     if(piece == null){
                         return false;
                     }
 
-                    board.setPiece(piece, new Position(row, col++));
+                    board.setPiece(piece, pos);
                 }
             }
             index++;
@@ -84,7 +85,7 @@ public class Fen {
 
         return color == Player.white ? Character.toUpperCase(c) : c;
     }
-    private static Piece generatePiece(Character c){
+    private static Piece generatePiece(Character c, Position pos){
         if(!pieces.containsKey(Character.toLowerCase(c))){
             return null;
         }
@@ -97,12 +98,12 @@ public class Fen {
         }
 
         return switch (pieces.get(Character.toLowerCase(c))){
-            case bishop -> new Bishop(player);
-            case king -> new King(player);
-            case knight -> new Knight(player);
-            case pawn -> new Pawn(player);
-            case queen -> new Queen(player);
-            case rook -> new Rook(player);
+            case bishop -> new Bishop(player, pos);
+            case king -> new King(player, pos);
+            case knight -> new Knight(player, pos);
+            case pawn -> new Pawn(player, pos);
+            case queen -> new Queen(player, pos);
+            case rook -> new Rook(player, pos);
         };
     }
 

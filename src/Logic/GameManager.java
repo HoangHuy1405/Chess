@@ -5,9 +5,12 @@ import Logic.Piece.Piece;
 import Logic.Piece.Player;
 import Logic.Position.Position;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+
+import static GUI.Panel.BoardPanel.SQUARE_SIZE;
 
 public class GameManager {
     private Player player_turn;
@@ -50,5 +53,52 @@ public class GameManager {
         board.lastDoublePawnMove = null;
         move.execute(board);
         player_turn = player_turn.Opponent();
+    }
+
+    public void update(){
+        updatePieces();
+    }
+
+    public void render(Graphics g){
+        drawBoard(g);
+        drawPieces(g);
+    }
+
+    private void drawBoard(Graphics g) {
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if ((i + j) % 2 == 0) {
+                    g.setColor(Color.WHITE);
+                } else {
+                    g.setColor(new Color(193, 42, 42));
+                }
+                g.fillRect(j * SQUARE_SIZE, i * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+            }
+        }
+    }
+    private void drawPieces(Graphics g){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                Position pos = new Position(i, j);
+                Piece piece = board.getPiece(pos);
+
+                if(piece != null){
+                    piece.draw(g);
+                }
+            }
+        }
+    }
+
+    private void updatePieces(){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                Position pos = new Position(i, j);
+                Piece piece = board.getPiece(pos);
+
+                if(piece != null){
+                    piece.update();
+                }
+            }
+        }
     }
 }

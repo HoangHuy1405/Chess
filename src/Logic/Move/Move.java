@@ -15,4 +15,14 @@ public abstract class Move {
     }
 
     public abstract void execute(Board board);
+
+    public MoveType getType() {
+        return type;
+    }
+    public Position getFromPos() {
+        return fromPos;
+    }
+    public Position getToPos() {
+        return toPos;
+    }
 }

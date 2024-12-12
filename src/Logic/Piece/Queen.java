@@ -20,8 +20,8 @@ public class Queen extends Piece{
     };
 
 
-    public Queen(Player color) {
-        super(PieceType.queen, color);
+    public Queen(Player color, Position position) {
+        super(PieceType.queen, color, position);
     }
 
     @Override

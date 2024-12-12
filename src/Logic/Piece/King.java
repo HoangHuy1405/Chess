@@ -26,8 +26,8 @@ public class King extends Piece {
         new Direction(-1, -1),
     };
 
-    public King(Player color) {
-        super(PieceType.king, color);
+    public King(Player color, Position position) {
+        super(PieceType.king, color, position);
     }
 
     @Override

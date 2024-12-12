@@ -1,20 +1,23 @@
-import GUI.BoardPanel;
+import GUI.ChessGame;
+import GUI.Panel.BoardPanel;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Chess");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        ChessGame game = new ChessGame();
 
-        BoardPanel bp = new BoardPanel();
-        frame.add(bp);
-        frame.pack(); // sized to fit the preferred size
+//        JFrame frame = new JFrame("Chess");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setResizable(false);
 
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        bp.launchGame();
+//        BoardPanel bp = new BoardPanel();
+//        frame.add(bp);
+//        frame.pack(); // sized to fit the preferred size
+//
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+//
+//        bp.launchGame();
     }
 }
