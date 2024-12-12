@@ -1,15 +1,12 @@
 package GUI;
 
-import Logic.Piece.Piece;
-import Logic.Piece.PieceType;
-import Logic.Piece.Player;
+import Piece.Piece;
+import Piece.PieceType;
+import Piece.Player;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Objects;
 
 public class PieceImage {

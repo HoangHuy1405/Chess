@@ -1,8 +1,8 @@
-package Logic.Move;
+package Move;
 
 import Logic.Board;
-import Logic.Piece.Piece;
-import Logic.Position.Position;
+import Piece.Piece;
+import Position.Position;
 
 public class PromotePawnMove extends Move{
     private Piece piece;

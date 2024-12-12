@@ -1,7 +1,7 @@
-package Logic.Move;
+package Move;
 
 import Logic.Board;
-import Logic.Position.Position;
+import Position.Position;
 
 public class Castle extends Move{
     private final Position rookFromPos;

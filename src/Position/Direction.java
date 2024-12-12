@@ -1,4 +1,4 @@
-package Logic.Position;
+package Position;
 
 public class Direction {
     private int deltaRow;

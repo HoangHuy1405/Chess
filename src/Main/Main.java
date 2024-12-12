@@ -1,7 +1,4 @@
-import GUI.ChessGame;
-import GUI.Panel.BoardPanel;
-
-import javax.swing.*;
+package Main;
 
 public class Main {
     public static void main(String[] args) {

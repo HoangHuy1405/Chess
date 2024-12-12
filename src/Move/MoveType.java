@@ -1,4 +1,4 @@
-package Logic.Move;
+package Move;
 
 public enum MoveType {
     NormalMove,

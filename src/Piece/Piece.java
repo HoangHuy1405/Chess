@@ -1,16 +1,17 @@
-package Logic.Piece;
+package Piece;
 
 import Logic.Board;
+import Move.Move;
+import Move.NormalMove;
+import Position.Direction;
+import Position.Position;
+import Position.PositionCalculation;
 
-import Logic.Move.*;
-import Logic.Position.Direction;
-import Logic.Position.Position;
-import Logic.Position.PositionCalculation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static GUI.Panel.BoardPanel.SQUARE_SIZE;
 import static GUI.PieceImage.getPieceImage;
@@ -65,8 +66,8 @@ public abstract class Piece {
         this.curPos = curPos;
     }
 
-    protected Map<Position, Move> generateMovesFromDirs(Board board, Position curPos, Direction[] directions){
-        Map<Position, Move> moves = new HashMap<>();
+    protected List<Move> generateMovesFromDirs(Board board, Position curPos, Direction[] directions){
+        List<Move> moves = new ArrayList<>();
         for(Direction d : directions){
             for(int i = 1; i <= 8; i++){
                 Position finalPos = PositionCalculation.CalculateDestination(curPos, Direction.CalculateScalarDirection(d, i));
@@ -75,12 +76,12 @@ public abstract class Piece {
                 Piece piece = board.getPiece(finalPos);
 
                 if (piece == null){
-                    moves.put(finalPos, new NormalMove(curPos, finalPos));
+                    moves.add(new NormalMove(curPos, finalPos));
                     continue;
                 }
 
                 if(!this.isSameColor(piece)) {
-                    moves.put(finalPos, new NormalMove(curPos, finalPos));
+                    moves.add(new NormalMove(curPos, finalPos));
                 }
                 break;
             }
@@ -88,8 +89,8 @@ public abstract class Piece {
 
         return moves;
     }
-    protected Map<Position, Move> generateMoveFromDirs(Board board, Position curPos, Direction[] directions){
-        Map<Position, Move> moves = new HashMap<>();
+    protected List<Move> generateMoveFromDirs(Board board, Position curPos, Direction[] directions){
+        List<Move> moves = new ArrayList<>();
         for(Direction direction : directions) {
             Position finalPos = PositionCalculation.CalculateDestination(curPos, direction);
             if(board.isOutOfBoard(finalPos)) continue;
@@ -99,7 +100,7 @@ public abstract class Piece {
                 if(this.isSameColor(piece))
                     continue;
             }
-            moves.put(finalPos, new NormalMove(curPos, finalPos));
+            moves.add(new NormalMove(curPos, finalPos));
         }
 
         return moves;
@@ -109,7 +110,7 @@ public abstract class Piece {
         return this.color == piece.getColor();
     }
 
-    abstract public Map<Position, Move> getMoves(Board board, Position curPos);
+    abstract public List<Move> getMoves(Board board, Position curPos);
 
     public Piece copy(){
         switch(this.type){

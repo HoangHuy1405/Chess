@@ -1,8 +1,8 @@
-package Logic.Move;
+package Move;
 
 import Logic.Board;
-import Logic.Piece.Piece;
-import Logic.Position.Position;
+import Piece.Piece;
+import Position.Position;
 
 public class NormalMove extends Move{
     public NormalMove(Position fromPos, Position toPos) {
@@ -13,6 +13,8 @@ public class NormalMove extends Move{
     public void execute(Board board) {
         Piece piece = board.getPiece(fromPos);
         board.setPiece(piece, toPos);
+        piece.setInitialBoardPos(toPos);
+
         board.removePiece(fromPos);
 
         if(!piece.hasMoved) piece.hasMoved = true;

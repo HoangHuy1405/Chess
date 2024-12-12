@@ -1,15 +1,15 @@
-package Logic.Piece;
+package Piece;
 
 import Logic.Board;
 
-import Logic.Move.Castle;
-import Logic.Move.Move;
-import Logic.Move.MoveType;
-import Logic.Position.Direction;
-import Logic.Position.Position;
+import Move.Castle;
+import Move.Move;
+import Move.MoveType;
+import Position.Direction;
+import Position.Position;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class King extends Piece {
     private static final Direction[] directions = {
@@ -31,14 +31,14 @@ public class King extends Piece {
     }
 
     @Override
-    public Map<Position, Move> getMoves(Board board, Position curPos) {
-        Map<Position, Move> moves = generateMoveFromDirs(board, curPos, directions);
-        moves.putAll(getCastleMoves(board, curPos));
+    public List<Move> getMoves(Board board, Position curPos) {
+        List<Move> moves = generateMoveFromDirs(board, curPos, directions);
+        moves.addAll(getCastleMoves(board, curPos));
         return moves;
     }
 
-    public Map<Position, Move> getCastleMoves(Board board, Position curPos){
-        Map<Position, Move> moves = new HashMap<>();
+    public List<Move> getCastleMoves(Board board, Position curPos){
+        List<Move> moves = new ArrayList<>();
         if(hasMoved || board.isInCheckAt(curPos, color)) return moves;
 
         Position[] QS = {
@@ -72,7 +72,7 @@ public class King extends Piece {
             }
             if(flag) {
                 Position kingToPos = new Position(curPos.getRow(), 2);
-                moves.put(kingToPos, new Castle(curPos, kingToPos, MoveType.QSCastle, pos));
+                moves.add(new Castle(curPos, kingToPos, MoveType.QSCastle, pos));
             }
         }
 
@@ -95,7 +95,7 @@ public class King extends Piece {
             }
             if(flag) {
                 Position kingToPos = new Position(curPos.getRow(), 6);
-                moves.put(kingToPos, new Castle(curPos, kingToPos, MoveType.KSCastle, pos));
+                moves.add(new Castle(curPos, kingToPos, MoveType.KSCastle, pos));
             }
         }
         return moves;

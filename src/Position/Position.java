@@ -1,4 +1,4 @@
-package Logic.Position;
+package Position;
 
 public class Position {
     private int row;

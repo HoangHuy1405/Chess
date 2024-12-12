@@ -1,6 +1,6 @@
 package GUI.Panel;
 
-import GUI.ChessGame;
+import Main.ChessGame;
 import Inputs.MouseInput;
 
 import javax.swing.*;

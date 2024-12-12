@@ -1,7 +1,7 @@
 package Logic;
 
-import Logic.Piece.*;
-import Logic.Position.Position;
+import Piece.*;
+import Position.Position;
 
 import java.util.HashMap;
 import java.util.Map;

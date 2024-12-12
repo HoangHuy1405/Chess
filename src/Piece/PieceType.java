@@ -1,4 +1,4 @@
-package Logic.Piece;
+package Piece;
 
 public enum PieceType {
     bishop,

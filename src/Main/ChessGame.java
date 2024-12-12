@@ -1,6 +1,5 @@
-package GUI;
+package Main;
 
-import GUI.Frame.ChessWindow;
 import GUI.Panel.BoardPanel;
 import GameStates.GameState;
 import GameStates.Playing;
@@ -12,7 +11,7 @@ public class ChessGame implements Runnable {
     private ChessWindow chessFrame;
     private Thread thread;
     private final int FPS = 144;
-    private final int UPS_SET = 200;
+    private final int UPS_SET = 144;
 
     public ChessGame(){
         GameState.setGameState(new Playing(this));

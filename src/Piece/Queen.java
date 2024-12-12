@@ -1,11 +1,11 @@
-package Logic.Piece;
+package Piece;
 
 import Logic.Board;
-import Logic.Move.Move;
-import Logic.Position.Direction;
-import Logic.Position.Position;
+import Move.Move;
+import Position.Direction;
+import Position.Position;
 
-import java.util.Map;
+import java.util.List;
 
 public class Queen extends Piece{
     private static final Direction[] directions = {
@@ -25,7 +25,7 @@ public class Queen extends Piece{
     }
 
     @Override
-    public Map<Position, Move> getMoves(Board board, Position curPos){
+    public List<Move> getMoves(Board board, Position curPos){
         return generateMovesFromDirs(board, curPos, directions);
     }
 

@@ -1,8 +1,8 @@
 //package GUI.Panel;
 //
 //import GUI.PieceImage;
-//import Logic.Piece.*;
-//import Logic.Position.Position;
+//import Piece.*;
+//import Position.Position;
 //
 //import javax.swing.*;
 //import java.awt.*;

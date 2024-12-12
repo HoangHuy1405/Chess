@@ -1,12 +1,12 @@
 package Logic;
 
-import Logic.Move.Move;
-import Logic.Piece.*;
-import Logic.Position.Direction;
-import Logic.Position.Position;
-import Logic.Position.PositionCalculation;
+import Move.Move;
+import Piece.*;
+import Position.Direction;
+import Position.Position;
+import Position.PositionCalculation;
 
-import java.util.Map;
+import java.util.List;
 
 public class Board {
     private Piece[][] board;
@@ -18,6 +18,10 @@ public class Board {
 
     public void InitializeBoard(){
         Fen.loadFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", this);
+    }
+
+    public Piece[][] getBoard(){
+        return board;
     }
 
     public Piece getPiece(Position pos) {
@@ -61,10 +65,13 @@ public class Board {
                     continue;
                 }
                 Position pos = new Position(i, j);
-                Map<Position, Move> moves = piece.getMoves(this, pos);
-                if(moves.containsKey(kingPos)){
-                    return true;
-                }
+                List<Move> moves = piece.getMoves(this, pos);
+
+                for(Move move : moves)
+                    if(move.getToPos().equals(kingPos))
+                        return true;
+
+
             }
         }
 

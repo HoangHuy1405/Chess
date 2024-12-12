@@ -1,13 +1,13 @@
-package Logic.Piece;
+package Piece;
 
 import Logic.Board;
-import Logic.Position.Direction;
-import Logic.Move.*;
-import Logic.Position.Position;
-import Logic.Position.PositionCalculation;
+import Position.Direction;
+import Move.*;
+import Position.Position;
+import Position.PositionCalculation;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pawn extends Piece {
     private final Direction direction;
@@ -23,19 +23,19 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Map<Position, Move> getMoves(Board board, Position curPos) {
-        Map<Position, Move> pawnMoves = generatePawnMoves(board, curPos);
-        Map<Position, Move> pawnCapture = generatePawnCapture(board, curPos);
+    public List<Move> getMoves(Board board, Position curPos) {
+        List<Move> pawnMoves = generatePawnMoves(board, curPos);
+        List<Move> pawnCapture = generatePawnCapture(board, curPos);
 
         if(!pawnCapture.isEmpty()){
-            pawnMoves.putAll(pawnCapture);
+            pawnMoves.addAll(pawnCapture);
         }
 
         return pawnMoves;
     }
 
-    private Map<Position, Move> generatePawnMoves(Board board, Position curPos){
-        Map<Position, Move> moves = new HashMap<>();
+    private List<Move> generatePawnMoves(Board board, Position curPos){
+        List<Move> moves = new ArrayList<>();
 
         Position finalPos = PositionCalculation.CalculateDestination(curPos, direction);
         if(board.isOutOfBoard(finalPos)) return moves;
@@ -44,9 +44,9 @@ public class Pawn extends Piece {
         if(piece != null) return moves;
 
         if(finalPos.getRow() == 7 || finalPos.getRow() == 0) {
-            moves.put(finalPos, new PromotePawnMove(curPos, finalPos));
+            moves.add(new PromotePawnMove(curPos, finalPos));
         }else{
-            moves.put(finalPos, new NormalMove(curPos, finalPos));
+            moves.add(new NormalMove(curPos, finalPos));
         }
 
         if(!hasMoved){
@@ -56,13 +56,13 @@ public class Pawn extends Piece {
             piece = board.getPiece(finalPos);
             if(piece != null) return moves;
 
-            moves.put(finalPos, new DoublePawnMove(curPos, finalPos));
+            moves.add(new DoublePawnMove(curPos, finalPos));
         }
 
         return moves;
     }
-    private Map<Position, Move> generatePawnCapture(Board board, Position curPos){
-        Map<Position, Move> moves = new HashMap<>();
+    private List<Move> generatePawnCapture(Board board, Position curPos){
+        List<Move> moves = new ArrayList<>();
 
         Position diagonal1 = PositionCalculation.CalculateDestination(curPos, Direction.CalculatePlusDirection(direction, new Direction(0, 1)));
         Position diagonal2 = PositionCalculation.CalculateDestination(curPos, Direction.CalculatePlusDirection(direction, new Direction(0, -1)));
@@ -72,9 +72,9 @@ public class Pawn extends Piece {
             if(piece != null){
                 if(!isSameColor(piece))
                     if(diagonal1.getRow() == 7 || diagonal1.getRow() == 0) {
-                        moves.put(diagonal1, new PromotePawnMove(curPos, diagonal1));
+                        moves.add(new PromotePawnMove(curPos, diagonal1));
                     }else{
-                        moves.put(diagonal1, new NormalMove(curPos, diagonal1));
+                        moves.add(new NormalMove(curPos, diagonal1));
                     }
             }
         }
@@ -84,9 +84,9 @@ public class Pawn extends Piece {
             if(piece != null){
                 if(!isSameColor(piece))
                     if(diagonal2.getRow() == 7 || diagonal2.getRow() == 0) {
-                        moves.put(diagonal2, new PromotePawnMove(curPos, diagonal2));
+                        moves.add(new PromotePawnMove(curPos, diagonal2));
                     }else{
-                        moves.put(diagonal2, new NormalMove(curPos, diagonal2));
+                        moves.add(new NormalMove(curPos, diagonal2));
                     }
             }
         }
@@ -104,10 +104,10 @@ public class Pawn extends Piece {
 
 
             if(diagonal1.equals(positionEnPassant))
-                moves.put(positionEnPassant, new EnPassantMove(curPos, diagonal1, lastDoublePawnMove));
+                moves.add(new EnPassantMove(curPos, diagonal1, lastDoublePawnMove));
 
             if(diagonal2.equals(positionEnPassant))
-                moves.put(positionEnPassant, new EnPassantMove(curPos, diagonal2, lastDoublePawnMove));
+                moves.add(new EnPassantMove(curPos, diagonal2, lastDoublePawnMove));
         }
 
         return moves;

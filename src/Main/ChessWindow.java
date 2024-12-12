@@ -1,4 +1,4 @@
-package GUI.Frame;
+package Main;
 
 import GUI.Panel.BoardPanel;
 
