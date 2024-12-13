@@ -44,12 +44,15 @@ public class Pawn extends Piece {
         if(piece != null) return moves;
 
         if(finalPos.getRow() == 7 || finalPos.getRow() == 0) {
-            moves.add(new PromotePawnMove(curPos, finalPos));
+            moves.add(new PromotePawnMove(curPos, finalPos, new Rook(color, finalPos)));
+            moves.add(new PromotePawnMove(curPos, finalPos, new Queen(color, finalPos)));
+            moves.add(new PromotePawnMove(curPos, finalPos, new Knight(color, finalPos)));
+            moves.add(new PromotePawnMove(curPos, finalPos, new Bishop(color, finalPos)));
         }else{
             moves.add(new NormalMove(curPos, finalPos));
         }
 
-        if(!hasMoved){
+        if(!hasMoved && (curPos.getRow() == 6 || curPos.getRow() == 1)){
             finalPos = PositionCalculation.CalculateDestination(curPos, Direction.CalculateScalarDirection(direction, 2));
             if(board.isOutOfBoard(finalPos)) return moves;
 
@@ -72,7 +75,10 @@ public class Pawn extends Piece {
             if(piece != null){
                 if(!isSameColor(piece))
                     if(diagonal1.getRow() == 7 || diagonal1.getRow() == 0) {
-                        moves.add(new PromotePawnMove(curPos, diagonal1));
+                        moves.add(new PromotePawnMove(curPos, diagonal1, new Rook(color, diagonal1)));
+                        moves.add(new PromotePawnMove(curPos, diagonal1, new Queen(color, diagonal1)));
+                        moves.add(new PromotePawnMove(curPos, diagonal1, new Knight(color, diagonal1)));
+                        moves.add(new PromotePawnMove(curPos, diagonal1, new Bishop(color, diagonal1)));
                     }else{
                         moves.add(new NormalMove(curPos, diagonal1));
                     }
@@ -84,7 +90,10 @@ public class Pawn extends Piece {
             if(piece != null){
                 if(!isSameColor(piece))
                     if(diagonal2.getRow() == 7 || diagonal2.getRow() == 0) {
-                        moves.add(new PromotePawnMove(curPos, diagonal2));
+                        moves.add(new PromotePawnMove(curPos, diagonal2, new Rook(color, diagonal2)));
+                        moves.add(new PromotePawnMove(curPos, diagonal2, new Queen(color, diagonal2)));
+                        moves.add(new PromotePawnMove(curPos, diagonal2, new Knight(color, diagonal2)));
+                        moves.add(new PromotePawnMove(curPos, diagonal2, new Bishop(color, diagonal2)));
                     }else{
                         moves.add(new NormalMove(curPos, diagonal2));
                     }
