@@ -12,10 +12,10 @@ import java.util.List;
 public class Pawn extends Piece {
     private final Direction direction;
 
-    public Pawn(Player color, Position position) {
+    public Pawn(PieceColor color, Position position) {
         super(PieceType.pawn, color, position);
 
-        if(color == Player.white){
+        if(color == PieceColor.white){
             direction = new Direction(-1, 0);
         }else{
             direction = new Direction(1, 0);
@@ -106,7 +106,7 @@ public class Pawn extends Piece {
         if(lastDoublePawnMove != null){
             Position positionEnPassant;
 
-            if(color.equals(Player.white))
+            if(color.equals(PieceColor.white))
                 positionEnPassant = new Position(lastDoublePawnMove.getRow() - 1, lastDoublePawnMove.getCol());
             else
                 positionEnPassant = new Position(lastDoublePawnMove.getRow() + 1, lastDoublePawnMove.getCol());

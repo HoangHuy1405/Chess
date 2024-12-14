@@ -7,8 +7,9 @@ import Position.Position;
 public class PromotePawnMove extends Move{
     private Piece piece;
 
-    public PromotePawnMove(Position fromPos, Position toPos) {
+    public PromotePawnMove(Position fromPos, Position toPos, Piece piece) {
         super(fromPos, toPos, MoveType.PawnPromote);
+        this.piece = piece;
     }
 
     public void setPiece(Piece piece) {

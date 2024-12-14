@@ -1,24 +1,24 @@
 package GameOver;
 
-import Piece.Player;
+import Piece.PieceColor;
 
 public class Result {
-    private Player player;
+    private PieceColor pieceColor;
     private EndReason reason;
 
-    public Result(Player player, EndReason reason) {
-        this.player = player;
+    public Result(PieceColor pieceColor, EndReason reason) {
+        this.pieceColor = pieceColor;
         this.reason = reason;
     }
     public EndReason getReason() {
         return reason;
     }
 
-    public static Result Win(Player player) {
-        return new Result(player, EndReason.Checkmate);
+    public static Result Win(PieceColor pieceColor) {
+        return new Result(pieceColor, EndReason.Checkmate);
     }
 
     public static Result Draw(EndReason endReason) {
-        return new Result(Player.none, endReason);
+        return new Result(PieceColor.none, endReason);
     }
 }

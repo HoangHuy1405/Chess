@@ -26,7 +26,7 @@ public class King extends Piece {
         new Direction(-1, -1),
     };
 
-    public King(Player color, Position position) {
+    public King(PieceColor color, Position position) {
         super(PieceType.king, color, position);
     }
 

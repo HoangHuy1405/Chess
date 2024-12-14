@@ -6,22 +6,34 @@ import Position.Direction;
 import Position.Position;
 import Position.PositionCalculation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
     private Piece[][] board;
     public Position lastDoublePawnMove;
 
+    private List<Position> occupiedPosWhiteList;
+    private List<Position> occupiedPosBlackList;
+
     public Board() {
         board = new Piece[8][8];
+        occupiedPosWhiteList = new ArrayList<>();
+        occupiedPosBlackList = new ArrayList<>();
     }
 
     public void InitializeBoard(){
-        Fen.loadFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", this);
+        Fen.loadFen("8/3k4/3p4/2q1p3/3P4/1N6/8/4K3", this);
     }
 
     public Piece[][] getBoard(){
         return board;
+    }
+    public List<Position> getOccupiedPosWhiteList() {
+        return this.occupiedPosWhiteList;
+    }
+    public List<Position> getOccupiedPosBlackList() {
+        return this.occupiedPosBlackList;
     }
 
     public Piece getPiece(Position pos) {
@@ -29,12 +41,42 @@ public class Board {
     }
     public void setPiece(Piece piece, Position pos) {
         board[pos.getRow()][pos.getCol()] = piece;
+        if(piece.getColor().equals(PieceColor.white)) {
+            occupiedPosWhiteList.add(new Position(pos.getRow(), pos.getCol()));
+        } else {
+            occupiedPosBlackList.add(new Position(pos.getRow(), pos.getCol()));
+        }
     }
     public void removePiece(Position pos) {
+        PieceColor currentColor = getPiece(pos).getColor();
         board[pos.getRow()][pos.getCol()] = null;
+        if(currentColor.equals(PieceColor.white)) {
+            occupiedPosWhiteList.remove(new Position(pos.getRow(), pos.getCol()));
+        } else {
+            occupiedPosBlackList.remove(new Position(pos.getRow(), pos.getCol()));
+        }
     }
+
     public void clearBoard() {
         board = new Piece[8][8];
+    }
+
+    // only for debug/init
+    // the game will automatically update occupied pos
+    public void findOccupiedPos() {
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                Position position = new Position(i,j);
+                if(getPiece(position) != null) {
+                    Piece piece = getPiece(position);
+                    if(piece.getColor().equals(PieceColor.white)) {
+                        occupiedPosWhiteList.add(position);
+                    } else {
+                        occupiedPosBlackList.add(position);
+                    }
+                }
+            }
+        }
     }
     public Board copy() {
         Board newBoard = new Board();
@@ -53,7 +95,7 @@ public class Board {
     public boolean isOutOfBoard(Position pos) {
         return pos.getRow() > 7 || pos.getCol() > 7 || pos.getRow() < 0 || pos.getCol() < 0;
     }
-    public boolean isInCheck(Player color) {
+    public boolean isInCheck(PieceColor color) {
         Position kingPos = findKing(color);
         if(kingPos == null) return false;
 
@@ -78,7 +120,7 @@ public class Board {
         return false;
     }
 
-    public boolean isInCheckAt(Position pos, Player color) {
+    public boolean isInCheckAt(Position pos, PieceColor color) {
         Direction[] dirs = {
             new Direction(0,1),
             new Direction(0,-1),
@@ -148,7 +190,7 @@ public class Board {
         return false;
     }
 
-    private Position findKing(Player color){
+    private Position findKing(PieceColor color){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Piece piece = getPiece(new Position(i, j));

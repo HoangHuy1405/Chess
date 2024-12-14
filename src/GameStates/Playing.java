@@ -4,7 +4,7 @@ import Main.ChessGame;
 import Logic.GameManager;
 import Move.Move;
 import Piece.Piece;
-import Piece.Player;
+import Piece.PieceColor;
 import Position.Position;
 
 import java.awt.*;
@@ -33,7 +33,7 @@ public class Playing extends GameState {
     }
 
     private void Initialize(){
-        gameManager = new GameManager(Player.white);
+        gameManager = new GameManager(PieceColor.white);
         gameManager.InitializeBoard();
     }
 
@@ -55,24 +55,18 @@ public class Playing extends GameState {
         if(cacheMoves == null || cacheMoves.isEmpty()){
             return false;
         }
-
         Move move = null;
-
         for(Move m : cacheMoves){
             if(m.getToPos().equals(pos)){
                 move = m;
                 break;
             }
         }
-
         if(move == null) return false;
-
         gameManager.MakeMove(move);
-
         if(gameManager.isGameOver()){
             isGameOver = true;
         }
-
         return true;
     }
 

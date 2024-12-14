@@ -73,7 +73,7 @@ public class Fen {
     }
 
     private static char getFenCharacter(Piece piece) {
-        Player color = piece.getColor();
+        PieceColor color = piece.getColor();
         char c = ' ';
 
         for(Map.Entry<Character, PieceType> entry : pieces.entrySet()){
@@ -83,27 +83,27 @@ public class Fen {
             }
         }
 
-        return color == Player.white ? Character.toUpperCase(c) : c;
+        return color == PieceColor.white ? Character.toUpperCase(c) : c;
     }
     private static Piece generatePiece(Character c, Position pos){
         if(!pieces.containsKey(Character.toLowerCase(c))){
             return null;
         }
 
-        Player player;
+        PieceColor pieceColor;
         if(Character.isLowerCase(c)){
-            player = Player.black;
+            pieceColor = PieceColor.black;
         }else{
-            player = Player.white;
+            pieceColor = PieceColor.white;
         }
 
         return switch (pieces.get(Character.toLowerCase(c))){
-            case bishop -> new Bishop(player, pos);
-            case king -> new King(player, pos);
-            case knight -> new Knight(player, pos);
-            case pawn -> new Pawn(player, pos);
-            case queen -> new Queen(player, pos);
-            case rook -> new Rook(player, pos);
+            case bishop -> new Bishop(pieceColor, pos);
+            case king -> new King(pieceColor, pos);
+            case knight -> new Knight(pieceColor, pos);
+            case pawn -> new Pawn(pieceColor, pos);
+            case queen -> new Queen(pieceColor, pos);
+            case rook -> new Rook(pieceColor, pos);
         };
     }
 

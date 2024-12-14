@@ -27,9 +27,9 @@ public abstract class Piece {
 
     public boolean hasMoved;
     protected PieceType type;
-    protected Player color;
+    protected PieceColor color;
 
-    protected Piece(PieceType type, Player color, Position initialBoardPos) {
+    protected Piece(PieceType type, PieceColor color, Position initialBoardPos) {
         this.type = type;
         this.color = color;
 
@@ -55,7 +55,7 @@ public abstract class Piece {
         this.initialBoardPos = initialBoardPos;
     }
 
-    public Player getColor() {
+    public PieceColor getColor() {
         return color;
     }
     public PieceType getType() {

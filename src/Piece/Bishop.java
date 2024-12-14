@@ -16,7 +16,7 @@ public class Bishop extends Piece {
         new Direction(-1, -1), // go to the South West
     };
 
-    public Bishop(Player color, Position position) {
+    public Bishop(PieceColor color, Position position) {
         super(PieceType.bishop, color, position);
     }
 

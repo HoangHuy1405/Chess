@@ -2,7 +2,7 @@ package GUI;
 
 import Piece.Piece;
 import Piece.PieceType;
-import Piece.Player;
+import Piece.PieceColor;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -30,16 +30,16 @@ public class PieceImage {
         return image;
     }
 
-    public static BufferedImage getPieceImage(PieceType type, Player player) {
+    public static BufferedImage getPieceImage(PieceType type, PieceColor pieceColor) {
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(PieceImage.class.getResourceAsStream(url + player + "-" + type + ".png")));
+            image = ImageIO.read(Objects.requireNonNull(PieceImage.class.getResourceAsStream(url + pieceColor + "-" + type + ".png")));
         } catch (IOException e) {
-            System.err.println("Error loading image for piece: " + player + "-" + type + ".png");
+            System.err.println("Error loading image for piece: " + pieceColor + "-" + type + ".png");
             e.printStackTrace();
         } catch (NullPointerException e) {
-            System.err.println("Resource not found: " + player + "-" + type + ".png");
+            System.err.println("Resource not found: " + pieceColor + "-" + type + ".png");
         }
         return image;
     }
