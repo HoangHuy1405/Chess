@@ -1,10 +1,13 @@
 package Evaluate;
 
+import Logic.Board;
+import Logic.Fen;
 import Main.ChessGame;
 
 public class MainTest {
     public static void main(String[] args) {
         ChessGame chessGame = new ChessGame();
+
         /*final int posInfinity = 9999999;
         final int negInfinity = -posInfinity;
 

@@ -4,6 +4,7 @@ import Evaluate.Evaluate;
 import GameOver.EndReason;
 import GameOver.Result;
 import Move.Move;
+import Move.MoveState;
 import Piece.Piece;
 import Piece.PieceColor;
 import Position.Position;
@@ -17,8 +18,6 @@ public class GameManager {
     private PieceColor pieceColor_turn;
     private Board board;
     private Result result;
-
-
 
     private Stack<Board> stack;
 
@@ -43,6 +42,7 @@ public class GameManager {
 
     public void InitializeBoard(){
         board.InitializeBoard();
+        pieceColor_turn = board.getColorToMove();
     }
 
     public List<Move> getLegalMoves(Position pos) {
@@ -53,7 +53,7 @@ public class GameManager {
         List<Move> legalMoves = new ArrayList<>(moves);
 
         for (Move move : moves) {
-            Board copy = board.copy();;
+            Board copy = board.copy();
             move.execute(copy);
             if(copy.isInCheck(pieceColor_turn)){
                 legalMoves.remove(move);
@@ -67,12 +67,24 @@ public class GameManager {
         List<Position> occupiedPos = pieceColor_turn.equals(PieceColor.white) ? board.getOccupiedPosWhiteList() : board.getOccupiedPosBlackList();
 
         for(Position pos : occupiedPos) {
-            List<Move> legalMoves = getLegalMoves(pos);
-            if(legalMoves != null)
-            allLegalMoves.addAll(legalMoves);
+            Piece piece = board.getPiece(pos);
+            if (piece == null || piece.getColor() != pieceColor_turn) continue;
+
+            List<Move> moves = piece.getMoves(board, pos);
+            for (Move move : moves) {
+                Board copy = board.copy();
+                move.execute(copy);
+                if(!copy.isInCheck(pieceColor_turn)){
+                    allLegalMoves.add(move);
+                }
+            }
         }
         return allLegalMoves;
     }
+    /*public List<Move> getAllCapturesMove() {
+
+    }*/
+
     public void MakeMove(Move move){
 //        moveHistory.push(Fen.extractFen(board));
         board.lastDoublePawnMove = null;
@@ -80,9 +92,12 @@ public class GameManager {
         move.execute(board);
         pieceColor_turn = pieceColor_turn.Opponent();
         CheckForGameOver();
+
     }
+
     public void UnmakeMove() {
         this.board = stack.pop();
+        pieceColor_turn = pieceColor_turn.Opponent();
     }
 
     public boolean hasAnyLegalMovesFor(PieceColor pieceColor){

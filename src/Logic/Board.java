@@ -1,5 +1,6 @@
 package Logic;
 
+import Evaluate.ZobristHashing;
 import Move.Move;
 import Piece.*;
 import Position.Direction;
@@ -15,15 +16,21 @@ public class Board {
 
     private List<Position> occupiedPosWhiteList;
     private List<Position> occupiedPosBlackList;
+    private PieceTracker pieceTracker;
+
+    private boolean whiteToMove; // True if White's turn
+    private int castlingRights;
+    private int enPassantSquare; // -1 if no en passant square, otherwise the square index
 
     public Board() {
         board = new Piece[8][8];
         occupiedPosWhiteList = new ArrayList<>();
         occupiedPosBlackList = new ArrayList<>();
+        pieceTracker = new PieceTracker();
     }
 
     public void InitializeBoard(){
-        Fen.loadFen("8/3k4/3p4/2q1p3/3P4/1N6/8/4K3", this);
+        Fen.loadFen("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq 10", this);
     }
 
     public Piece[][] getBoard(){
@@ -35,26 +42,34 @@ public class Board {
     public List<Position> getOccupiedPosBlackList() {
         return this.occupiedPosBlackList;
     }
+    public PieceColor getColorToMove() {
+        return whiteToMove ? PieceColor.white : PieceColor.black;
+    }
 
     public Piece getPiece(Position pos) {
         return board[pos.getRow()][pos.getCol()];
     }
     public void setPiece(Piece piece, Position pos) {
         board[pos.getRow()][pos.getCol()] = piece;
-        if(piece.getColor().equals(PieceColor.white)) {
-            occupiedPosWhiteList.add(new Position(pos.getRow(), pos.getCol()));
-        } else {
-            occupiedPosBlackList.add(new Position(pos.getRow(), pos.getCol()));
+        if(piece != null) {
+            if(piece.getColor().equals(PieceColor.white)) {
+                occupiedPosWhiteList.add(new Position(pos.getRow(), pos.getCol()));
+            } else {
+                occupiedPosBlackList.add(new Position(pos.getRow(), pos.getCol()));
+            }
+            pieceTracker.add(piece);
         }
+
     }
     public void removePiece(Position pos) {
-        PieceColor currentColor = getPiece(pos).getColor();
+        Piece piece = getPiece(pos);
         board[pos.getRow()][pos.getCol()] = null;
-        if(currentColor.equals(PieceColor.white)) {
+        if(piece.getColor().equals(PieceColor.white)) {
             occupiedPosWhiteList.remove(new Position(pos.getRow(), pos.getCol()));
         } else {
             occupiedPosBlackList.remove(new Position(pos.getRow(), pos.getCol()));
         }
+        pieceTracker.remove(piece);
     }
 
     public void clearBoard() {
@@ -78,6 +93,14 @@ public class Board {
             }
         }
     }
+    public long getHash() {
+        return ZobristHashing.computeZobristHash(board, whiteToMove);
+    }
+    public void setWhiteToMove(boolean whiteToMove) {
+        this.whiteToMove = whiteToMove;
+    }
+
+
     public Board copy() {
         Board newBoard = new Board();
         for (int i = 0; i < 8; i++) {
@@ -186,7 +209,6 @@ public class Board {
                 if(piece.getType() == PieceType.queen || piece.getType() == PieceType.bishop) return true;
             }
         }
-
         return false;
     }
 
@@ -201,6 +223,10 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public int countOfPiece(PieceColor color, PieceType type) {
+        return pieceTracker.getCountByTypeAndColor(color, type);
     }
 
 }

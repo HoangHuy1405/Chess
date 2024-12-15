@@ -21,7 +21,20 @@ public class Fen {
         int index = 0, row = 0, col = 0;
         board.clearBoard();
 
-        while (index < fenString.length()){
+        // Initialize additional game state variables
+        boolean isWhiteTurn = true;  // Default to white's turn
+        boolean[] castlingRights = {true, true, true, true}; // [White King, White Queen, Black King, Black Queen]
+        String enPassant = "-";  // No en passant by default
+        int halfMoveClock = 0;  // Number of half-moves since last capture or pawn move
+        int fullMoveNumber = 1;  // Full move counter starts at 1
+
+        String[] fenParts = fenString.split(" ");
+        if (fenParts.length < 4) {
+            System.out.println("Invalid fen string!");
+            return false;  // Invalid FEN (missing important game state info)
+        }
+        // init board (1st)
+        while (index < fenParts[0].length()){
             if(Character.isDigit(fenString.charAt(index))){
                 col += Character.getNumericValue(fenString.charAt(index));
             }else{
@@ -34,12 +47,18 @@ public class Fen {
                     if(piece == null){
                         return false;
                     }
-
                     board.setPiece(piece, pos);
+
                 }
             }
             index++;
         }
+        // who to move (2nd)
+        board.setWhiteToMove(fenParts[1].equals("w"));
+
+        // castling rights (3rd)
+
+        // Parse en passant square (4th)
 
         return true;
     }

@@ -9,6 +9,8 @@ import Position.Position;
 import java.util.List;
 
 public class Bishop extends Piece {
+
+
     private static final Direction[] directions = {
         new Direction(1, 1), // go to the North East
         new Direction(1, -1), // go to the North West

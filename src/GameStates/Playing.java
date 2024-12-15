@@ -1,5 +1,6 @@
 package GameStates;
 
+import Evaluate.ChessBot;
 import Main.ChessGame;
 import Logic.GameManager;
 import Move.Move;
@@ -16,6 +17,7 @@ import static GUI.Panel.BoardPanel.SQUARE_SIZE;
 public class Playing extends GameState {
     private GameManager gameManager;
 
+
     private Piece curPiece;
     private List<Move> cacheMoves;
 
@@ -23,6 +25,8 @@ public class Playing extends GameState {
     private boolean isDragged;
 
     private boolean isGameOver;
+
+    private ChessBot chessBot;
 
     public Playing(ChessGame chessGame) {
         super(chessGame);
@@ -34,6 +38,7 @@ public class Playing extends GameState {
 
     private void Initialize(){
         gameManager = new GameManager(PieceColor.white);
+        chessBot = new ChessBot(PieceColor.black);
         gameManager.InitializeBoard();
     }
 
@@ -72,8 +77,23 @@ public class Playing extends GameState {
 
     @Override
     public void update() {
-        if(isGameOver) System.out.println(gameManager.getResult().getReason());
-        else updatePieces();
+        if(isGameOver) {
+            System.out.println(gameManager.getResult().getReason());
+            return;
+        }
+        /*if (gameManager.getPlayer_turn().equals(chessBot.getBotColor())) {
+            // Bot's turn
+            Move botMove = chessBot.move(gameManager);
+            if (botMove != null) {
+                gameManager.MakeMove(botMove);
+            }
+            if (gameManager.isGameOver()) {
+                isGameOver = true;
+            }*/
+        else {
+            // Player's turn logic continues here
+            updatePieces();
+        }
     }
     @Override
     public void draw(Graphics g) {
@@ -82,7 +102,6 @@ public class Playing extends GameState {
             highlightLegalMove(g);
         }
         drawPieces(g);
-
     }
 
     @Override

@@ -18,7 +18,6 @@ public class Rook extends Piece {
 
     public Rook(PieceColor color, Position position){
         super(PieceType.rook, color, position);
-
     }
 
     @Override

@@ -21,4 +21,8 @@ public class PromotePawnMove extends Move{
         board.removePiece(fromPos);
         board.setPiece(piece, toPos);
     }
+
+    public Piece getPiece() {
+        return this.piece;
+    }
 }

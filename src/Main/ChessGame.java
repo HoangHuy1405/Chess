@@ -15,8 +15,7 @@ public class ChessGame implements Runnable {
     private Thread thread;
     private final int FPS = 144;
     private final int UPS_SET = 144;
-    final int posInfinity = 9999999;
-    final int negInfinity = -posInfinity;
+
 
     public ChessGame(){
         GameState.setGameState(new Playing(this));
@@ -25,14 +24,7 @@ public class ChessGame implements Runnable {
         boardPanel.requestFocus();
 
         startGameLoop();
-
-        /*// alpha, best already explored option along path to the root for maximizer
-        // beta, best already explored option along path to the root for minimizer
-        BestMove bestMove = new BestMove();
-        Evaluate.dfs(4,negInfinity,posInfinity, bestMove);
-        System.out.println(bestMove);*/
-
-
+        Evaluate.startSearch(2);
     }
 
     private void startGameLoop(){
@@ -110,7 +102,7 @@ public class ChessGame implements Runnable {
                 if (System.currentTimeMillis() - lastCheck >= 1000) {
 
                     lastCheck = System.currentTimeMillis();
-                    System.out.println("FPS: " + frames + " | UPS: " + updates);
+                    //System.out.println("FPS: " + frames + " | UPS: " + updates);
                     frames = 0;
                     updates = 0;
 
