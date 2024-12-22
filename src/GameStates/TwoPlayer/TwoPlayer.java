@@ -133,15 +133,15 @@ public class TwoPlayer extends GameState {
             updatePieces = false;
         }
 
-//        if(isBotTurn){
-//            synchronized (chessBot){
-//                if(isBotTurn) {
-//                    chessBot.move();
-//                    isBotTurn = false;
-//                    updatePieces = true;
-//                }
-//            }
-//        }
+        if(isBotTurn){
+            synchronized (chessBot){
+                if(isBotTurn) {
+                    chessBot.move();
+                    isBotTurn = false;
+                    updatePieces = true;
+                }
+            }
+        }
 
         if(board.isEnd()){
             state = GameOver;
