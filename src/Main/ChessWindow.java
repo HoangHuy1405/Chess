@@ -1,7 +1,5 @@
 package Main;
 
-import GUI.Panel.BoardPanel;
-
 import javax.swing.*;
 
 public class ChessWindow{
@@ -17,7 +15,5 @@ public class ChessWindow{
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-//
-//        bp.launchGame();
     }
 }

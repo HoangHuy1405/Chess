@@ -1,8 +1,7 @@
 package Main;
 
-import GUI.Panel.BoardPanel;
+import GameStates.EState;
 import GameStates.GameState;
-import GameStates.Playing;
 
 import java.awt.*;
 
@@ -14,8 +13,9 @@ public class ChessGame implements Runnable {
     private final int UPS_SET = 144;
 
     public ChessGame(){
-        GameState.setGameState(new Playing(this));
         boardPanel = new BoardPanel(this);
+        GameState.changeState(EState.MainScreen, boardPanel);
+
         chessFrame = new ChessWindow(boardPanel);
         boardPanel.requestFocus();
 
@@ -27,38 +27,15 @@ public class ChessGame implements Runnable {
         thread.start();
     }
 
+
     public void update() {
-        GameState.gameState.update();
+        GameState.getState().update();
     }
 
     public void render(Graphics g){
-        GameState.gameState.draw(g);
+        GameState.getState().render(g);
     }
 
-    @Override
-//    public void run() {
-//        double timePerFrame = 1000000000.0 / FPS;
-//        long lastFrame = System.nanoTime();
-//        long now;
-//        int frames = 0;
-//        long lastCheck = System.currentTimeMillis();
-//
-//        while(true){
-//            now = System.nanoTime();
-//            if(now - lastFrame >= timePerFrame){
-//                boardPanel.repaint();
-//                lastFrame = now;
-//                frames++;
-//            }
-//
-//
-//            if(System.currentTimeMillis() - lastCheck > 1000){
-//                lastCheck = System.currentTimeMillis();
-//                System.out.println("FPS: " + frames);
-//                frames = 0;
-//            }
-//        }
-//    }
     public void run() {
         double timePerFrame = 1000000000.0 / FPS;
         double timePerUpdate = 1000000000.0 / UPS_SET;
