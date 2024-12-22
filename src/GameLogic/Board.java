@@ -43,8 +43,7 @@ public class Board {
     }
 
     public void initializeDefault(){
-        Fen.loadFen(this, "8/3K1PP1/8/3k4/8/2q5/5pp1/8 b - - 0 1");
-
+        Fen.loadFen(this, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         updateKingInCheck();
     }
 

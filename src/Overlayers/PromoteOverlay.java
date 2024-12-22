@@ -23,7 +23,7 @@ public class PromoteOverlay extends Overlays{
     private PromoteB queenPB, rookPB, knightPB, bishopPB;
 
     public PromoteOverlay(int xPos, int yPos, TwoPlayer twoPlayer, List<Move> promoteMoves) {
-        super(getLayoutImg(PROMOTE_LAYOUT), xPos, yPos, 550, 200);
+        super(getLayoutImg(PROMOTE_LAYOUT), xPos, yPos, 600, 200);
         this.twoPlayer = twoPlayer;
 
         initializeButton(promoteMoves);
@@ -31,9 +31,9 @@ public class PromoteOverlay extends Overlays{
 
     private void initializeButton(List<Move> promoteMoves){
         queenPB = new PromoteB(xPos + 50, yPos + 50, (Promote) promoteMoves.get(0), twoPlayer.getBoard());
-        rookPB = new PromoteB(xPos + Square.SIZE + 50, yPos + 50, (Promote) promoteMoves.get(1), twoPlayer.getBoard());
-        knightPB = new PromoteB(xPos + Square.SIZE * 2 + 50, yPos + 50, (Promote) promoteMoves.get(2), twoPlayer.getBoard());
-        bishopPB = new PromoteB(xPos + Square.SIZE * 3 + 50, yPos + 50, (Promote) promoteMoves.get(3), twoPlayer.getBoard());
+        rookPB = new PromoteB(xPos + 50*2 + Square.SIZE, yPos + 50, (Promote) promoteMoves.get(1), twoPlayer.getBoard());
+        knightPB = new PromoteB(xPos + 50*3 + Square.SIZE*2, yPos + 50, (Promote) promoteMoves.get(2), twoPlayer.getBoard());
+        bishopPB = new PromoteB(xPos + 50*4 + Square.SIZE*3, yPos + 50, (Promote) promoteMoves.get(3), twoPlayer.getBoard());
     }
 
 

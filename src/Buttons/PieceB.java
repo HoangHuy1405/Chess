@@ -88,6 +88,7 @@ public class PieceB extends Button{
 
                 if(move != null) {
                     twoPlayer.getBoard().makeMove(move);
+                    twoPlayer.updatePieces = true;
                     twoPlayer.isBotTurn = true;
                 }
 

@@ -11,9 +11,14 @@ import java.util.Random;
 
 public class ChessBot {
     private PieceColor botColor;
+    private Board board;
 
-    public ChessBot(PieceColor botColor) {
+    public boolean done;
+
+    public ChessBot(PieceColor botColor, Board board) {
         this.botColor = botColor;
+        this.board = board;
+        done = false;
     }
 
     public PieceColor getBotColor() {
@@ -27,10 +32,10 @@ public class ChessBot {
         Random random = new Random();
         return legalMoves.get(random.nextInt(legalMoves.size()));
     }
-    public void move(Board board)  {
-        Move move = Evaluate.startSearch(5, board);
+    public void move()  {
+        Move move = Evaluate.startSearch(3, board);
         System.out.println(move);
         board.makeMove(move);
-
     }
+
 }

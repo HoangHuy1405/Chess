@@ -12,6 +12,8 @@ import Piece.PieceColor;
 
 import static GameStates.TwoPlayer.TPState.*;
 import static StaticField.ProjectileProperties.*;
+import static java.awt.image.ImageObserver.HEIGHT;
+import static java.awt.image.ImageObserver.WIDTH;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -24,22 +26,21 @@ public class TwoPlayer extends GameState {
     private ChessBot chessBot;
     public PromoteOverlay promoteOverlay;
 
-    public boolean isBotTurn;
+    public volatile boolean isBotTurn;
 
     private HashMap<Integer, List<Move>> cacheMoves;
     public boolean drawHighlight;
 
     public TPState state;
 
-    private boolean updatePieces;
+    public boolean updatePieces;
 
     private int pressedIndex;
 
     public TwoPlayer(BoardPanel boardPanel) {
         super(boardPanel);
         board = new Board();
-        chessBot = new ChessBot(PieceColor.Black);
-
+        chessBot = new ChessBot(PieceColor.Black, board);
 
         isBotTurn = false;
 
@@ -116,22 +117,36 @@ public class TwoPlayer extends GameState {
         promoteOverlay = new PromoteOverlay(125, 300, this, promoteMoves);
     }
 
+    public void drawEndGame(Graphics g, Result result){
+        g.setFont(new Font("Serif", Font.BOLD, 50));
+        g.setColor(Color.BLUE);
+
+
+        String string = result.reason == EndReason.Checkmate ? "CHECKMATE" : "STALEMATE";
+        g.drawString(string, 250, 400);
+    }
+
     @Override
     public void update() {
         if(updatePieces){
             updatePiece();
             updatePieces = false;
         }
+
 //        if(isBotTurn){
 //            synchronized (chessBot){
 //                if(isBotTurn) {
-//                    updatePieces = true;
-//                    chessBot.move(board);
+//                    chessBot.move();
 //                    isBotTurn = false;
 //                    updatePieces = true;
 //                }
 //            }
 //        }
+
+        if(board.isEnd()){
+            state = GameOver;
+        }
+
 
 
     }
@@ -143,12 +158,17 @@ public class TwoPlayer extends GameState {
 
     @Override
     public void render(Graphics g) {
-        drawBoard(g);
-        drawPiece(g);
-        if(drawHighlight) highlightMove(g);
-        if(state == Promote){
-            promoteOverlay.render(g);
+        if(state == GameOver){
+            drawEndGame(g, board.getResult());
+        }else {
+            drawBoard(g);
+            drawPiece(g);
+            if (drawHighlight) highlightMove(g);
+            if (state == Promote) {
+                promoteOverlay.render(g);
+            }
         }
+
     }
     public void drawBoard(Graphics g) {
         for(int i = 0; i < 8; i++){

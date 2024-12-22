@@ -18,8 +18,8 @@ import static Piece.PieceType.*;
 
 public class MoveGenerator {
     public static final int[] queenDirs = {-9, -8, -7, -1, 1, 7, 8, 9};
-        public static final int[] rookDirs = { -8, -1, 1, 8};
-        public static final int[] bishopDirs = { -9, -7, 7, 9};
+    public static final int[] rookDirs = { -8, -1, 1, 8};
+    public static final int[] bishopDirs = { -9, -7, 7, 9};
     public static final int[] knightDirs = {-17, -15, -10, -6, 6, 10, 15, 17};
     public static final int[] kingDirs = {-9, -8, -7, -1, 1, 7, 8, 9};
 
@@ -220,20 +220,13 @@ public class MoveGenerator {
 //            }
     }
     private static void generateKnightMoves(PieceColor color, int index, int[] dirs, Board board, HashMap<Integer, List<Move>> moves) {
-//        // a knight cannot move if it is pinned.
-//        if(board.pinnedPattern.contains(index)) return;
-
         for(int dir : dirs) {
             int newIndex = index + dir;
 
             if(isOutOfBoard(newIndex)) continue;
-//            int abs = Math.abs((newIndex % 8) - (index % 8));
-//            if (abs > 2) continue;
-
             if(!isLegalNewMove(index, newIndex, dir, 1)) continue;
 
             int piece = board.getPiece(newIndex);
-
             if(piece != 0 && getColorValue(piece) == color.value) continue;
 
             Move move = new Move(index, newIndex);
@@ -245,7 +238,6 @@ public class MoveGenerator {
             moves.put(newIndex, moveList);
         }
     }
-    //time complexity: n = 256 + 160 = 416 => 0(1)
     private static void generateKingMoves(PieceColor color, int index, int[] dirs, Board board, HashMap<Integer, List<Move>> moves) {
         //normal move
         //total: n =  32 * 8 = 256
@@ -333,8 +325,6 @@ public class MoveGenerator {
         }
         return allLegalMoves;
     }
-
-
     public static boolean isLegalNewMove(int fromPos, int toPos, int dir, int scalar){
         int deltaRow = Math.abs((toPos/8) - (fromPos/8));
         int deltaCol = Math.abs((toPos%8) - (fromPos%8));
@@ -346,7 +336,6 @@ public class MoveGenerator {
 
         return true;
     }
-
     private static boolean isLeadToACheck(Move move, Board board){
         boolean result = false;
         PieceColor color = board.turn == White ? White : Black;
@@ -356,7 +345,6 @@ public class MoveGenerator {
         board.unmakeMove();
         return result;
     }
-
     private static List<Move> generateLegalPromote(Board board, int index, int newIndex, PieceColor color){
         List<Move> moveList = new ArrayList<>();
 
@@ -372,7 +360,6 @@ public class MoveGenerator {
 
         return moveList;
     }
-
     private static boolean isRankPromote(int index, PieceColor color){
         return (color == Black && index/8 == 6) || (color == White && index /8 == 1);
     }

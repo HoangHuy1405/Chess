@@ -2,7 +2,9 @@ package Evaluate;
 
 import GameLogic.Board;
 
+import GameLogic.EndReason;
 import GameLogic.Move.*;
+import GameLogic.Result;
 import Piece.PieceColor;
 import Piece.PieceTracker;
 import Piece.PieceType;
@@ -109,14 +111,18 @@ public class Evaluate {
         dfs(maxDepth, alpha, beta);
 
         System.out.println("\nNodes = " + nodeNum);
-        System.out.println("best move = " + bestMove);
+        System.out.println("Prunes: " + pruneNum);
+        System.out.println("Best move = " + bestMove);
+
 
         return bestMove;
     }
     public static int dfs(int depth, int alpha, int beta) {
-        copiedBoard.updateEndGame();
-        if(copiedBoard.isEnd()) {
-            return 999999;
+        if(copiedBoard.isEnd()){
+            Result result = copiedBoard.getResult();
+            if(result.reason == EndReason.Checkmate){
+                return posInfinity;
+            }
         }
          if(depth == 0) {
              nodeNum++;
@@ -150,14 +156,14 @@ public class Evaluate {
             // update alpha to reflect the best score
             if(evaluate > alpha) {
                 alpha = evaluate;
-                System.out.println(copiedBoard.getPiece(move.getFromPos()));
+//                System.out.println(copiedBoard.getPiece(move.getFromPos()));
                 /*if(getColor(copiedBoard.getPiece(move.getFromPos())) == PieceColor.White) {
                     printBoard();
                 }*/
                 if (depth == MAX_DEPTH) { // Update bestMove only at root level
                     bestMove = move;
                 }
-                System.out.println("\nbest Move found: " + move + " alpha: " + alpha + " evaluation = " + evaluate);
+//                System.out.println("\nbest Move found: " + move + " alpha: " + alpha + " evaluation = " + evaluate);
             }
         }
         // Store in transposition table
