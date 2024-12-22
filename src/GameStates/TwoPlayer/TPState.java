@@ -4,4 +4,6 @@ public enum TPState {
     None,
     Hold_Piece,
     Promote,
+    GameOver,
+    BotTurn,
 }

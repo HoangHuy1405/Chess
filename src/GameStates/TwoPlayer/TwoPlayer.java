@@ -7,6 +7,7 @@ import GameLogic.Move.Move;
 import GameStates.GameState;
 import Main.BoardPanel;
 import GameLogic.*;
+import Overlayers.PromoteOverlay;
 import Piece.PieceColor;
 
 import static GameStates.TwoPlayer.TPState.*;
@@ -20,8 +21,8 @@ import java.util.List;
 public class TwoPlayer extends GameState {
     public Board board;
     private PieceB[] pieceBS;
-
     private ChessBot chessBot;
+    public PromoteOverlay promoteOverlay;
 
     public boolean isBotTurn;
 
@@ -38,6 +39,7 @@ public class TwoPlayer extends GameState {
         super(boardPanel);
         board = new Board();
         chessBot = new ChessBot(PieceColor.Black);
+
 
         isBotTurn = false;
 
@@ -64,13 +66,9 @@ public class TwoPlayer extends GameState {
             return moves.get(0);
         }
     }
-    public Move getMove(int index, int n){
-        List<Move> moves = cacheMoves.get(index);
-        if(moves == null){
-            return null;
-        }else{
-            return moves.get(n);
-        }
+
+    public List<Move> getMoves(int index){
+        return cacheMoves.get(index);
     }
 
     private void resetBool(){
@@ -114,22 +112,26 @@ public class TwoPlayer extends GameState {
         }
     }
 
+    public void startPromote(List<Move> promoteMoves){
+        promoteOverlay = new PromoteOverlay(125, 300, this, promoteMoves);
+    }
+
     @Override
     public void update() {
         if(updatePieces){
             updatePiece();
             updatePieces = false;
         }
-        if(isBotTurn){
-            synchronized (chessBot){
-                if(isBotTurn) {
-                    updatePieces = true;
-                    chessBot.move(board);
-                    isBotTurn = false;
-                    updatePieces = true;
-                }
-            }
-        }
+//        if(isBotTurn){
+//            synchronized (chessBot){
+//                if(isBotTurn) {
+//                    updatePieces = true;
+//                    chessBot.move(board);
+//                    isBotTurn = false;
+//                    updatePieces = true;
+//                }
+//            }
+//        }
 
 
     }
@@ -144,6 +146,9 @@ public class TwoPlayer extends GameState {
         drawBoard(g);
         drawPiece(g);
         if(drawHighlight) highlightMove(g);
+        if(state == Promote){
+            promoteOverlay.render(g);
+        }
     }
     public void drawBoard(Graphics g) {
         for(int i = 0; i < 8; i++){
@@ -192,11 +197,10 @@ public class TwoPlayer extends GameState {
     }
     @Override
     public void mouseDragged(MouseEvent e){
-
-        pieceBS[pressedIndex].mouseDragged(e);
+//        pieceBS[pressedIndex].mouseDragged(e);
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        pieceBS[pressedIndex].mouseReleased(e);
+//        pieceBS[pressedIndex].mouseReleased(e);
     }
 }

@@ -5,6 +5,7 @@ import GameLogic.Move.MoveGenerator;
 import GameLogic.Move.Promote;
 import GameStates.TwoPlayer.TPState;
 import GameStates.TwoPlayer.TwoPlayer;
+import Overlayers.PromoteOverlay;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -22,8 +23,6 @@ public class PieceB extends Button{
     private int yDrag;
 
     private boolean isDragging;
-
-
 
     public PieceB(int xPos, int yPos, TwoPlayer twoPlayer) {
         super(null, xPos, yPos, Square.SIZE, Square.SIZE);
@@ -74,22 +73,29 @@ public class PieceB extends Button{
                 HashMap<Integer, List<Move>> moves = MoveGenerator.generateLegalMoves(index, twoPlayer.getBoard());
                 if(moves.isEmpty()) return;
 
-
                 twoPlayer.setCacheMoves(moves);
                 twoPlayer.changeTPState(TPState.Hold_Piece);
             }
             case Hold_Piece -> {
                 Move move = twoPlayer.getMove(index);
+
+                if(move instanceof Promote) {
+                    List<Move> promoteMove = twoPlayer.getMoves(index);
+                    twoPlayer.startPromote(promoteMove);
+                    twoPlayer.changeTPState(TPState.Promote);
+                    return;
+                }
+
                 if(move != null) {
                     twoPlayer.getBoard().makeMove(move);
                     twoPlayer.isBotTurn = true;
-
                 }
+
 
                 twoPlayer.changeTPState(TPState.None);
             }
             case Promote -> {
-
+                twoPlayer.promoteOverlay.mouseClicked(e);
             }
         }
     }

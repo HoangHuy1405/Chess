@@ -219,45 +219,6 @@ public class MoveGenerator {
 //                    }
 //            }
     }
-//    private static void generatePromoteMoves(PieceColor color, int index, Board board, HashMap<Integer, List<Move>> moves) {
-//        int scalar = (color == White) ? -1 : 1;
-//        int[] attackDirs = {7 * scalar, 9 * scalar};
-//
-//        //attack move
-//        for(int dir : attackDirs){
-//            int newIndex = index + dir;
-//            int p = board.getPiece(newIndex);
-//
-////            if (Math.abs((newIndex % 8) - (index % 8)) != 1) continue;
-//
-//            if(!isLegalNewMove(index, newIndex, dir, 1)) continue;
-//
-//            if(p == 0) continue;
-//            if(getColorValue(p) == color.value) continue;
-//
-//            if(!board.inCheck || board.attackPattern.contains(newIndex)) {
-//                List<Move> moveList = moves.getOrDefault(newIndex, new ArrayList<>());
-//
-//                moves.put(newIndex, moveList);
-//            }
-//        }
-//
-//        //forward move
-//        int dir = 8 * scalar;
-//        int newIndex = index + dir;
-//        int p = board.getPiece(newIndex);
-//
-//        if(p == 0) {
-//            if(!board.inCheck || board.attackPattern.contains(newIndex)){
-//                List<Move> moveList = moves.getOrDefault(newIndex, new ArrayList<>());
-//                moveList.add(new Promote(index, newIndex, board, color.value | Queen.value));
-//                moveList.add(new Promote(index, newIndex, board, color.value | Rook.value));
-//                moveList.add(new Promote(index, newIndex, board, color.value | Knight.value));
-//                moveList.add(new Promote(index, newIndex, board, color.value | Bishop.value));
-//                moves.put(newIndex, moveList);
-//            }
-//        }
-//    }
     private static void generateKnightMoves(PieceColor color, int index, int[] dirs, Board board, HashMap<Integer, List<Move>> moves) {
 //        // a knight cannot move if it is pinned.
 //        if(board.pinnedPattern.contains(index)) return;
@@ -299,8 +260,9 @@ public class MoveGenerator {
             int piece = board.getPiece(newIndex);
             if(piece != 0 && getColorValue(board.getPiece(newIndex)) == color.value) continue;
 
+            Move move = new Move(index, newIndex);
             //check if move go into an attack
-            if(board.isInAttackAt(newIndex, color)) continue; //total: n = 32
+            if(isLeadToACheck(move, board)) continue;
 
             List<Move> moveList = moves.getOrDefault(newIndex, new ArrayList<>());
             moveList.add(new Move(index, newIndex));

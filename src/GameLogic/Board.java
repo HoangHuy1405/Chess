@@ -36,10 +36,6 @@ public class Board {
     public Board(){
         pieces = new int[64];
 
-//        pinIndex = new HashSet<>();
-//        attackPattern = new HashSet<>();
-//        pinnedPattern = new HashSet<>();
-
         tracker = new PieceTracker();
         boardHistory = new Stack<>();
 
@@ -47,7 +43,7 @@ public class Board {
     }
 
     public void initializeDefault(){
-        Fen.loadFen(this, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        Fen.loadFen(this, "8/3K1PP1/8/3k4/8/2q5/5pp1/8 b - - 0 1");
 
         updateKingInCheck();
     }
@@ -107,85 +103,6 @@ public class Board {
         pieces[index] = 0;
         tracker.removePiece(piece, index);
     }
-//
-////    the worst case occurs when the king at the center of the board
-////    time complexity: n = 3*4 + 4*4 = 28 => O(1)
-//    public void updatePinIndex(PieceColor curTurn){
-//        int color = curTurn.value;
-//        int[] dirs = kingDirs.clone();
-//
-//        //remove some dirs if nearby 1 or in the edges or corner
-//        //this will reduce the time complexity for some special cases
-//        if (kingPos[color/8] / 8 >= 6) {
-//            dirs[5] = 0;
-//            dirs[6] = 0;
-//            dirs[7] = 0;
-//        }
-//        if (kingPos[color/8] / 8 <= 1) {
-//            dirs[0] = 0;
-//            dirs[1] = 0;
-//            dirs[2] = 0;
-//        }
-//        if (kingPos[color/8] % 8 >= 6) {
-//            dirs[2] = 0;
-//            dirs[4] = 0;
-//            dirs[7] = 0;
-//        }
-//        if (kingPos[color/8] % 8 <= 1) {
-//            dirs[0] = 0;
-//            dirs[3] = 0;
-//            dirs[5] = 0;
-//        }
-//
-//        List<Integer> temp = new ArrayList<>();;
-//        for(int dir : dirs){
-//            if(dir == 0){ continue;}
-//            int pinI = -1;
-//            temp.clear();
-//
-//            for(int j = 1; j < 7; j++){
-//                int index = kingPos[color/8] + dir*j;
-//
-//                //out of board
-//                if(isOutOfBoard(index)) break;
-//                if(!isLegalNewMove(kingPos[color/8], index, dir, j)) break;
-//
-//                int p = pieces[index];
-//
-//                // empty square then continue
-//                if(p == 0){
-//                    temp.add(index);
-//                    continue;
-//                }
-//
-//                // save the first catch if same color
-//                if(Pieces.getColorValue(p) == color && pinI == - 1){
-//                    pinI = index;
-//                    continue;
-//                }
-//
-//                //check if same color, then there are at least 2 pieces blocking the attack, then break
-//                if(Pieces.getColorValue(p) == color) break;
-//
-//                //if the opponent piece is not a sliding piece, it becomes a blocking piece
-//                if(!Pieces.isSlidingPiece(p)) break;
-//
-//                PieceType type = getType(p);
-//
-//                if(type == Rook && (dir != -1 && dir != 1 && dir != 8 && dir != -8)) break;
-//                if(type == Bishop && (dir != -9 && dir != -7 && dir != 7 && dir != 9)) break;
-//
-//
-//                //save when pinned piece exist
-//                if(pinI != -1) {
-//                    temp.add(index);
-//                    pinnedPattern.addAll(temp);
-//                    pinIndex.add(pinI);
-//                    break;
-//                }
-//            }
-//        }
-//    }
     public void updateKingInCheck(){
         inCheck = isInAttackAt(kingPos[turn.value / 8], turn);
     }
@@ -268,7 +185,7 @@ public class Board {
                 if(i == 1){
                     int scalar = (color == White) ? 1 : -1;
                     if(dir * scalar < 0 && ptype == PieceType.Pawn) return true;
-                    if(ptype == PieceType.King) continue;
+                    if(ptype == PieceType.King) return true;
                 }
 
                 //block by none-diagonal attack piece
